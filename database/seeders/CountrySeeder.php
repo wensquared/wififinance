@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Country;
 use Illuminate\Database\Seeder;
 
 class CountrySeeder extends Seeder
@@ -43,5 +44,15 @@ class CountrySeeder extends Seeder
             'Slovenia',
             'Slovakia',
         ];
+
+        $dbCountries = Country::get();
+
+        foreach ($countries as $country ) {
+            if (!$dbCountries->contains('country',$country)) {
+                Country::create([
+                    'country'=>$country
+                ]);
+            }
+        }
     }
 }
