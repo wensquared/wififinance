@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('pageTitle',config('app.name'))</title>
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
     <header class="p-3 bg-dark text-white">
@@ -31,19 +31,21 @@
                             <a href="{{ route('register')}}"><button type="button" class="btn btn-warning">Sign-up</button></a>
                         @endif
                     @else
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->username }}
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                        <div class="dropdown show">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ Auth::user()->username }}
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="#">edit</a>
+                                
+                                <a class="dropdown-item" href="{{ route('logout') }}" 
+                                    onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                            </div>
                         </div>
                     @endguest
                 </div>
@@ -61,6 +63,6 @@
         </div>
     </footer>
 
-    <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

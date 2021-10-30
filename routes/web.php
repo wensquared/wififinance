@@ -19,4 +19,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/portfolio', function() {
+    return view('portfolio.index');
+});
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
