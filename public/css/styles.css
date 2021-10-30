@@ -1,0 +1,72 @@
+/* img {
+    height: 550px;
+    width: auto;
+} */
+body {
+    /* padding-top: 3rem; */
+    /* padding-bottom: 3rem; */
+    color: #5a5a5a;
+}
+
+.featurette-divider {
+    margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+}
+
+/* Thin out the marketing headings */
+.featurette-heading {
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -.05rem;
+}
+
+.container .accordion {
+    padding-right: 25px;
+    padding-left: 25px;
+}
+
+.container h2 {
+    padding-top: 20px;
+}
+
+.product-device {
+    position: absolute;
+    right: 10%;
+    bottom: -30%;
+    width: 300px;
+    height: 540px;
+    background-color: #333;
+    border-radius: 21px;
+    transform: rotate(30deg);
+}
+
+.product-device::before {
+    position: absolute;
+    top: 10%;
+    right: 10px;
+    bottom: 10%;
+    left: 10px;
+    content: "";
+    background-color: rgba(255, 255, 255, .1);
+    border-radius: 5px;
+}
+
+.product-device-2 {
+    top: -25%;
+    right: auto;
+    bottom: 0;
+    left: 5%;
+    background-color: #e5e5e5;
+}
+
+
+@media (min-width: 40em) {
+    .featurette-heading {
+    font-size: 50px;
+    }
+}
+
+@media (min-width: 62em) {
+    .featurette-heading {
+    margin-top: 7rem;
+    }
+}
