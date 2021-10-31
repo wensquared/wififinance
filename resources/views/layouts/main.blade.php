@@ -18,7 +18,11 @@
                     <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
                     <!-- <li><a href="#" class="nav-link px-2 text-white">Features</a></li> -->
                     <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                    <li><a href="{{ route('user.index') }}" class="nav-link px-2 text-white">Users</a></li>
+                    @auth
+                        @can('admingate')
+                            <li><a href="{{ route('admin.index') }}" class="nav-link px-2 text-white">Users</a></li>
+                        @endcan
+                    @endauth
                 </ul>
         
                 <div class="text-end">

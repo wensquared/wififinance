@@ -28,6 +28,7 @@ class User extends Authenticatable
         'country_id',
         'profile_img',
         'verification_img',
+        'role_id',
     ];
 
     /**

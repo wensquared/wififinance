@@ -25,6 +25,40 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('usergate', function($user) {
+
+            if ($user->role->role == 'user') {
+                return true;
+            }
+            elseif ($user->role->role == 'user_verified') {
+                return true;
+            }
+            elseif ($user->role->role == 'admin') {
+                return true;
+            }
+            return false;
+
+        });
+        
+        Gate::define('user_verified_gate', function($user) {
+
+            if ($user->role->role == 'user_verified') {
+                return true;
+            }
+            elseif ($user->role->role == 'admin') {
+                return true;
+            }
+            return false;
+
+        });  
+
+        Gate::define('admingate', function($user) { 
+
+            if ($user->role->role == 'admin') {
+                return true;
+            }
+            return false;
+
+        });  
     }
 }

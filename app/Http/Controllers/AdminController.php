@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,54 +19,24 @@ class UserController extends Controller
      */
     public function index()
     {
-        /* $users = User::with('role')->with('country')->get();
-        return view('user.index', compact('users')); */
+        $users = User::with('role')->with('country')->get();
+        return view('admin.index', compact('users'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
-    { 
-        // $roles = Role::get();
+    public function edit(User $admin)
+    {   
+        if(Auth::user()->id == $admin->id){
+            dd('not allowed');
+        }
+        $roles = Role::get();
         $countries = Country::get();
 
-        return view('user.edit', compact('user','countries'));
+        return view('admin.edit', compact('admin','roles','countries'));
     }
 
     /**
@@ -76,8 +46,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
+        $user = User::where('id',$id)->first();
+        
         $validateData = $request->validate([
             'username' => ['required', 'string', 'max:255'],
             'email'=>'required|email:filter,dns|unique:users,email,'.$user->id.'id',
@@ -86,11 +58,11 @@ class UserController extends Controller
             'lastname' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:200'],
             'postcode' => ['required', 'string', 'max:10'],
-            // 'role_id'=>'nullable|exists:roles,id',
+            'role_id'=>'nullable|exists:roles,id',
         ]);
 
         
-        // $user->role_id = $request->role_id;
+        $user->role_id = $request->role_id;
         $user->update($validateData);
         
         if (isset($request->password)) {
@@ -100,8 +72,8 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
         }
-
-        return redirect()->route('portfolio.index');
+        $users = User::get();
+        return redirect()->route('admin.index',compact('users'));
     }
 
     /**

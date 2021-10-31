@@ -19,10 +19,17 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/portfolio', function() {
-    return view('portfolio.index')->name('portfolio.index');
-});
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('/user','UserController');
+
+Route::middleware('auth')->group(function() {
+    Route::middleware('can:usergate')->group(function() {
+        Route::get('/portfolio', function() {
+            return view('portfolio.index');
+        })->name('portfolio.index');
+        Route::resource('/user','UserController')->except(['index','create','show','destroy']);
+});
+    Route::middleware('can:admingate')->group(function() {
+        Route::resource('/admin','AdminController')->except(['create']);
+    });
+});
