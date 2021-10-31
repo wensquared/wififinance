@@ -18,7 +18,7 @@
                     <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
                     <!-- <li><a href="#" class="nav-link px-2 text-white">Features</a></li> -->
                     <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                    <!-- <li><a href="#" class="nav-link px-2 text-white">About</a></li> -->
+                    <li><a href="{{ route('user.index') }}" class="nav-link px-2 text-white">Users</a></li>
                 </ul>
         
                 <div class="text-end">
@@ -37,7 +37,7 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">edit</a>
+                                <a class="dropdown-item" href="{{ route('user.edit', Auth::user()->id ) }}">edit</a>
                                 
                                 <a class="dropdown-item" href="{{ route('logout') }}" 
                                     onclick="event.preventDefault();
