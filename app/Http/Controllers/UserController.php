@@ -7,6 +7,8 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
@@ -77,9 +79,32 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        dd($request->all());
+        $validateData = $request->validate([
+            'username' => ['required', 'string', 'max:255'],
+            'email'=>'required|email:filter,dns|unique:users,email,'.$user->id.'id',
+            'country_id'=>['required','exists:countries,id'],
+            'firstname' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:200'],
+            'postcode' => ['required', 'string', 'max:10'],
+            'role_id'=>'nullable|exists:roles,id',
+        ]);
+
+        
+        $user->role_id = $request->role_id;
+        $user->update($validateData);
+        
+        if (isset($request->password)) {
+            $request->validate([
+                'password'=>['required','confirmed','password'=>Password::min(8)->mixedCase()->numbers()->symbols()],
+            ]);
+            $user->password = Hash::make($request->password);
+            $user->save();
+        }
+
+        return view('portfolio.index');
     }
 
     /**

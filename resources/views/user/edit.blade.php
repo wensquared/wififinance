@@ -28,7 +28,7 @@
             </div>
             </div>
             <div class="form-group row">
-                <label for="role_id" class="col-md-4 col-form-label text-md-right">Abteilung</label>
+                <label for="role_id" class="col-md-4 col-form-label text-md-right">Role</label>
                 <div class="col-md-6">
                 <select name="role_id" id="role_id" class="form-control @error('role_id') is-invalid @enderror">
                     <option value="">Choose Role</option>
@@ -46,7 +46,7 @@
             <div class="form-group row">
                 <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail</label>
                 <div class="col-md-6">
-                <input type="text" class="form-control" name="email" id="email" value="{{ old('email',$user->email) }}">
+                <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email',$user->email) }}">
                 @error('email')
                 <div class="invalid-feedback">
                     {{ $message }}
