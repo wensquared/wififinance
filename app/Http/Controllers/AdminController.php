@@ -15,6 +15,11 @@ class AdminController extends Controller
 {
     use FileTrait;
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->diskName = 'public_verification_img';
