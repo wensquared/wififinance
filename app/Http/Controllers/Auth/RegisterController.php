@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Traits\FileTrait;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -24,7 +25,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RegistersUsers, FileTrait;
 
     /**
      * Where to redirect users after registration.
@@ -41,6 +42,8 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->diskName = 'public_verification_img';
+
     }
 
     /**
@@ -60,8 +63,7 @@ class RegisterController extends Controller
             'lastname' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:200'],
             'postcode' => ['required', 'string', 'max:10'],
-            // 'profile_img'=>['nullable','mimes:gif,png,jpg,jpeg','max:4096'],
-            // 'verification_img'=>['nullable','mimes:gif,png,jpg,jpeg','max:4096'],
+            'verification_img'=>['nullable','mimes:gif,png,jpg,jpeg','max:4096'],
         ]);
     }
 
@@ -73,6 +75,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        if (isset($data['verification_img'])) {
+            $this->saveFile($data['verification_img'])->maxWidth(850,'show_');
+            $data['verification_img'] = $this->saveFile;
+        }
+        
         return User::create([
             'username' => $data['username'],
             'firstname' => $data['firstname'],
@@ -83,6 +90,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'country_id' => $data['country_id'],
             'role_id' => 2,
+            'verification_img' => $data['verification_img'] ?? null,
         ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\Role;
 use App\Models\User;
+use App\Traits\FileTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +13,13 @@ use Illuminate\Support\Facades\Password;
 
 class AdminController extends Controller
 {
+    use FileTrait;
+
+    public function __construct()
+    {
+        $this->diskName = 'public_verification_img';
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -76,6 +84,16 @@ class AdminController extends Controller
         return redirect()->route('admin.index',compact('users'));
     }
 
+    public function show($id)
+    {
+        $user = User::where('id',$id)->first();
+        /* // dd($user->verification_img);
+        $img_path = $this->showFile($user->verification_img);
+
+        dd($img_path); */
+        return view('admin.show', compact('user'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -84,6 +102,24 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        if ($user) {
+            $user->delete();
+            if ($user->verification_img) {
+                $this->deleteFile($user->verification_img)->deleteFile('show_'.$user->verification_img);
+            }
+        }
+        $users = User::get();
+        return redirect()->route('admin.index',compact('users'));
+    }
+
+    public function showimg($img)
+    {
+        return $this->showFile($img);
+    }
+
+    public function download($img)
+    {
+        return $this->downloadFile($img);
     }
 }

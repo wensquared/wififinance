@@ -3,7 +3,7 @@
 
 @section('content')
 <h1>User edit</h1>
-<div class="button"><a href="{{ route('user.index') }}" class="btn btn-outline-secondary">All Users</a></div>
+<div class="button"><a href="{{ route('portfolio.index') }}" class="btn btn-outline-secondary">My Portfolio</a></div>
 <div class="contrainer">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -13,7 +13,7 @@
                 <div class="card-body">
 
     <div id="form" class="form">
-        <form action="{{ route('user.update',$user->id) }}" method="POST">
+        <form action="{{ route('user.update',$user->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group row">
@@ -27,22 +27,7 @@
             @enderror
             </div>
             </div>
-            {{-- <div class="form-group row">
-                <label for="role_id" class="col-md-4 col-form-label text-md-right">Role</label>
-                <div class="col-md-6">
-                <select name="role_id" id="role_id" class="form-control @error('role_id') is-invalid @enderror">
-                    <option value="">Choose Role</option>
-                    @foreach ($roles as $role)
-                    <option value="{{ $role->id }}" @if( (old('role_id',$user->role_id) == $role->id) ) selected @endif >{{ $role->role}}</option>
-                    @endforeach
-                </select>
-                @error('role_id')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
-                </div>
-            </div> --}}
+            
             <div class="form-group row">
                 <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail</label>
                 <div class="col-md-6">
@@ -135,9 +120,18 @@
                 @enderror
                 </div>
             </div>
-            
-            
-    
+            <div class="form-group row">
+                <label for="verification_img" class="col-md-4 col-form-label text-md-right">Upload Verification</label>
+                <div class="col-md-6">
+                    <input type="file" class="form-control @error('verification_img') is-invalid @enderror" name="verification_img" id="verification_img">
+                @error('verification_img')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+                @enderror
+                </div>
+            </div>
+
             <button type="submit" class="btn btn-dark">speichern</button>
         </form>
     </div>

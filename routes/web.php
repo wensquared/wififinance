@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function() {
         Route::resource('/user','UserController')->except(['index','create','show','destroy']);
 });
     Route::middleware('can:admingate')->group(function() {
+        Route::get('/admin/img/{img}','AdminController@showimg')->name('admin.showimg');
+        Route::get('/admin/download/{img}','AdminController@download')->name('admin.download');
         Route::resource('/admin','AdminController')->except(['create']);
     });
 });

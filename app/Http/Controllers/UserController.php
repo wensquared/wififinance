@@ -5,13 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\Role;
 use App\Models\User;
+use App\Traits\FileTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
+    use FileTrait;
+
+    public function __construct()
+    {
+        $this->diskName = 'public_verification_img';
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -78,7 +87,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $validateData = $request->validate([
+        $request->validate([
             'username' => ['required', 'string', 'max:255'],
             'email'=>'required|email:filter,dns|unique:users,email,'.$user->id.'id',
             'country_id'=>['required','exists:countries,id'],
@@ -87,11 +96,24 @@ class UserController extends Controller
             'address' => ['required', 'string', 'max:200'],
             'postcode' => ['required', 'string', 'max:10'],
             // 'role_id'=>'nullable|exists:roles,id',
+            'verification_img'=>['nullable','mimes:gif,png,jpg,jpeg','max:4096'],
         ]);
 
-        
+        // $absPath = Storage::disk('public_verification_img')->path('');
+        // dd($user->verification_img);
+
+        $update = $request->except('verification_img','password');
+
+        if (isset($request->verification_img)) {
+            if ($user->verification_img) {
+                // dd('user hatte schon ein bild');
+                $this->deleteFile($user->verification_img)->deleteFile('show_'.$user->verification_img);
+            }
+            $this->saveFile($request->file('verification_img'))->maxWidth(850,'show_');
+            $update['verification_img'] = $this->saveFile;
+        }
         // $user->role_id = $request->role_id;
-        $user->update($validateData);
+        $user->update($update);
         
         if (isset($request->password)) {
             $request->validate([
