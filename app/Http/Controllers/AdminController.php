@@ -112,7 +112,18 @@ class AdminController extends Controller
             $user->delete();
             if ($user->verification_img) {
                 $this->deleteFile($user->verification_img)->deleteFile('show_'.$user->verification_img);
+                $status = 200;
+                $key = 'success';
+                $msg = 'User '.$user->username.' deleted.';
             }
+            else {
+                $status = 470;
+                $key = 'error';
+                $msg = 'PROBLEM: User couldn\'t be deleted.';
+            }
+        }
+        if( request()->ajax()) {
+            return response()->json(['status'=>$status, 'msg'=>$msg]);
         }
         $users = User::get();
         return redirect()->route('admin.index',compact('users'));

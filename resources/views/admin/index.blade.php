@@ -43,7 +43,7 @@
                         @if ( Auth::user()->id != $user->id )
                             <td><a href="{{ route('admin.edit',$user->id)}}" class="btn btn-outline-dark fa fa-edit"></a></td>
                             <td>
-                            <form class="delete" action="{{ route('admin.destroy', $user->id) }}" method="POST" data-title="{{ $user->name }}" data-body="Wollen Sie User: {{ $user->name }} <strong>wirklich</strong> loeschen">
+                            <form class="delete" action="{{ route('admin.destroy', $user->id) }}" method="POST" data-title="{{ $user->username }}" data-body="Do you really want to delete {{ $user->username}}?">
                                 @method('delete')
                                 @csrf
                                 <button type="submit" class="btn btn-outline-danger fa fa-trash"></button>

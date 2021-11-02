@@ -7,10 +7,10 @@
     <title>@yield('pageTitle',config('app.name'))</title>
     <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/toastr.min.css">
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    {{Route::currentRouteName()}}
     <header class="p-3 bg-dark text-white">
 
         <div class="container">
@@ -72,6 +72,37 @@
         </div>
     </footer>
 
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="deleteModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/js/jquery-3.6.0.min.js"></script>
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/toastr.min.js"></script>
+    <script src="/js/script.js"></script>
+    <script>
+        "use strict";
+        (function($){
+            $(document).ready(function(){
+                @yield('javascript','')
+            });
+        })(jQuery);
+    </script>
 </body>
 </html>
