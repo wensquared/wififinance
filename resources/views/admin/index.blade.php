@@ -54,6 +54,7 @@
             @endforeach
         </tbody>
     </table>
+    <div class="pagination justify-content-center">{{ $users->links() }}</div>
 @endsection
 
 @section('javascript')

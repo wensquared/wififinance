@@ -32,7 +32,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $users = User::with('role')->with('country')->get();
+        $users = User::with('role')->with('country')->paginate(15);
         return view('admin.index', compact('users'));
     }
     /**
