@@ -55,3 +55,11 @@
         </tbody>
     </table>
 @endsection
+
+@section('javascript')
+    @if( session('success') )
+        window.myToastr('success', '{{ session('success') }}' );
+    @elseif ( session('error'))
+        window.myToastr('error', '{{ session('error') }}' );
+    @endif
+@endsection

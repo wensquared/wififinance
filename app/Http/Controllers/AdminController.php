@@ -86,7 +86,7 @@ class AdminController extends Controller
             $user->save();
         }
         $users = User::get();
-        return redirect()->route('admin.index',compact('users'));
+        return redirect()->route('admin.index',compact('users'))->with('success', $user->username.'\'s data has been updated');;
     }
 
     public function show($id)
