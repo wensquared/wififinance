@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     if(Auth::check()) {
-            return view('portfolio.index');
+        return view('portfolio.index');
     }
     return view('mainpage');
 });
@@ -24,13 +24,25 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+/* Route::get('/info', function() {
+    return view('info');
+}); */
+
+// testen der API
+Route::get('/info', 'InfoController@index')->name('info.index');
 
 Route::middleware('auth')->group(function() {
     Route::middleware('can:usergate')->group(function() {
+        // braucht noch PortfolioController, um Portfolio Daten von User zu holen und darzustellen
         Route::get('/portfolio', function() {
             return view('portfolio.index');
         })->name('portfolio.index');
-        Route::resource('/user','UserController')->except(['index','create','show','destroy']);
+
+        Route::get('/balance', function() {
+            return view('portfolio.balance');
+        })->name('portfolio.balance');
+        
+        Route::resource('/user','UserController')->except(['index','create','store','show','destroy']);
 });
     Route::middleware('can:admingate')->group(function() {
         Route::get('/admin/img/{img}','AdminController@showimg')->name('admin.showimg');

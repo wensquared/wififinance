@@ -30,34 +30,36 @@
                     @endauth
                 </ul>
         
+                @guest
                 <div class="text-end">
-                    @guest
-                        @if (Route::has('login'))
-                            <a href="{{ route('login')}}"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
-                        @endif
+                    @if (Route::has('login'))
+                        <a href="{{ route('login')}}"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
+                    @endif
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register')}}"><button type="button" class="btn btn-warning">Sign-up</button></a>
-                        @endif
-                    @else
-                        <div class="dropdown show">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ Auth::user()->username }}
-                            </a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register')}}"><button type="button" class="btn btn-warning">Sign-up</button></a>
+                    @endif
+                @else
+                    <a href="{{ route('portfolio.balance')}}"><button type="button" class="btn btn-info">Balance</button></a>
 
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="{{ route('user.edit', Auth::user()->id ) }}">edit</a>
-                                
-                                <a class="dropdown-item" href="{{ route('logout') }}" 
-                                    onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                            </div>
+                    <div class="dropdown show">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ Auth::user()->username }}
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{{ route('user.edit', Auth::user()->id ) }}">edit</a>
+                            
+                            <a class="dropdown-item" href="{{ route('logout') }}" 
+                                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
                         </div>
-                    @endguest
+                    </div>
                 </div>
+                @endguest
             </div>
         </div>
     </header>

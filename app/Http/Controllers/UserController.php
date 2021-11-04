@@ -28,8 +28,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        /* $users = User::with('role')->with('country')->get();
-        return view('user.index', compact('users')); */
+        //
     }
 
     /**
@@ -67,7 +66,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -82,7 +81,7 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
@@ -95,7 +94,6 @@ class UserController extends Controller
             'lastname' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:200'],
             'postcode' => ['required', 'string', 'max:10'],
-            // 'role_id'=>'nullable|exists:roles,id',
             'verification_img'=>['nullable','mimes:gif,png,jpg,jpeg','max:4096'],
         ]);
 

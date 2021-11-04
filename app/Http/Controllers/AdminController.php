@@ -38,13 +38,15 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\User  $admin
      * @return \Illuminate\Http\Response
      */
     public function edit(User $admin)
     {   
         if(Auth::user()->id == $admin->id){
-            dd('not allowed');
+            // dd('not allowed');
+            $users = User::with('role')->with('country')->paginate(15);
+            return redirect()->route('admin.index',compact('users'));
         }
         $roles = Role::get();
         $countries = Country::get();
@@ -89,13 +91,16 @@ class AdminController extends Controller
         return redirect()->route('admin.index',compact('users'))->with('success', $user->username.'\'s data has been updated');;
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
         $user = User::where('id',$id)->first();
-        /* // dd($user->verification_img);
-        $img_path = $this->showFile($user->verification_img);
-
-        dd($img_path); */
+        
         return view('admin.show', compact('user'));
     }
 
