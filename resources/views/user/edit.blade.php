@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('pageTitle', 'User edit')
+@section('pageTitle', 'Update data')
 
 @section('content')
 <h1>User edit</h1>

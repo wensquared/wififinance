@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('pageTitle', 'Stock Info')
 
 @section('content')
     <h1>Info</h1>

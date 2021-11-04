@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('pageTitle', 'Balance')
 
 @section('content')
     @can('user_verified_gate')

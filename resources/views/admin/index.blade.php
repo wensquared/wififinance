@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('pageTitle', 'Userlist')
 
 @section('content')
     <h1>Userlist admin</h1>
