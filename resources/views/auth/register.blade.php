@@ -105,7 +105,6 @@
 
                         <div class="form-group row mb-2">
                             <label for="country" class="col-md-4 col-form-label text-md-right">Country:</label>
-
                             <div class="col-md-6">
                                 <select name="country_id" id="country_id" class="form-control @error('country_id') is-invalid @enderror">
                                     <option value="">Select Country</option>
