@@ -91,6 +91,7 @@ class RegisterController extends Controller
             'country_id' => $data['country_id'],
             'role_id' => 2,
             'verification_img' => $data['verification_img'] ?? null,
+            'balance' => null,
         ]);
     }
 }

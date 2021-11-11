@@ -40,7 +40,8 @@
                         <a href="{{ route('register')}}"><button type="button" class="btn btn-warning">Sign-up</button></a>
                     @endif
                 @else
-                    <a href="{{ route('portfolio.balance')}}"><button type="button" class="btn btn-info">Balance</button></a>
+                    {{-- <a href="{{ route('user.balance')}}"><button type="button" class="btn btn-info">Balance</button></a> --}}
+                    <a href="{{ route('balance.index')}}"><button type="button" class="btn btn-info">{{Auth::user()->balance ? Auth::user()->balance.' EUR' : 'Balance'}}</button></a>
 
                     <div class="dropdown show">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

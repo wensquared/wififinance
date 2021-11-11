@@ -32,18 +32,26 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/info', 'InfoController@index')->name('info.index');
 
 Route::middleware('auth')->group(function() {
+
     Route::middleware('can:usergate')->group(function() {
         // braucht noch PortfolioController, um Portfolio Daten von User zu holen und darzustellen
         Route::get('/portfolio', function() {
             return view('portfolio.index');
         })->name('portfolio.index');
 
-        Route::get('/balance', function() {
-            return view('portfolio.balance');
-        })->name('portfolio.balance');
+        /* Route::get('/balance', function() {
+            return view('user.balance');
+        })->name('user.balance'); */
+
+        Route::get('/balance', 'BalanceController@index')->name('balance.index');
         
         Route::resource('/user','UserController')->except(['index','create','store','show','destroy']);
-});
+    });
+
+    Route::middleware('can:user_verified_gate')->group(function() {
+
+    });
+
     Route::middleware('can:admingate')->group(function() {
         Route::get('/admin/img/{img}','AdminController@showimg')->name('admin.showimg');
         Route::get('/admin/download/{img}','AdminController@download')->name('admin.download');

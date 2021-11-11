@@ -29,6 +29,7 @@ class User extends Authenticatable
         // 'profile_img',
         'verification_img',
         'role_id',
+        'balance'
     ];
 
     /**
