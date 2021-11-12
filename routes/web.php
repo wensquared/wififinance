@@ -18,7 +18,7 @@ Route::get('/', function () {
         return view('portfolio.index');
     }
     return view('mainpage');
-});
+})->name('mainpage');
 
 Auth::routes();
 

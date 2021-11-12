@@ -12,17 +12,16 @@
 </head>
 <body>
     <header class="p-3 bg-dark text-white">
-
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     @guest
-                        <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
+                        <li><a href="/" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'mainpage') ? 'text-white' : 'text-secondary' }}">Home</a></li>
                     @else
                         <li><a href="{{route('portfolio.index')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'portfolio') ? 'text-white' : 'text-secondary' }}">Home</a></li>
                     @endguest
-                    <li><a href="{{ route('faqs')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'portfolio') ? 'text-white' : 'text-secondary' }}">FAQs</a></li>
+                    <li><a href="{{ route('faqs')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'faqs') ? 'text-white' : 'text-secondary' }}">FAQs</a></li>
                     @auth
                         @can('admingate')
                             <li><a href="{{ route('admin.index') }}" class="nav-link px-2  {{ Str::startsWith(Route::currentRouteName(), 'admin') ? 'text-white' : 'text-secondary' }} ">Users</a></li>
