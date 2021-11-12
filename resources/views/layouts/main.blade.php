@@ -22,7 +22,7 @@
                     @else
                         <li><a href="{{route('portfolio.index')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'portfolio') ? 'text-white' : 'text-secondary' }}">Home</a></li>
                     @endguest
-                    <li><a href="#" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'portfolio') ? 'text-white' : 'text-secondary' }}">FAQs</a></li>
+                    <li><a href="{{ route('faqs')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'portfolio') ? 'text-white' : 'text-secondary' }}">FAQs</a></li>
                     @auth
                         @can('admingate')
                             <li><a href="{{ route('admin.index') }}" class="nav-link px-2  {{ Str::startsWith(Route::currentRouteName(), 'admin') ? 'text-white' : 'text-secondary' }} ">Users</a></li>

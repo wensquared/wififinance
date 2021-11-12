@@ -28,6 +28,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     return view('info');
 }); */
 
+Route::get('/faq', function() {
+    return view('faqs');
+})->name('faqs');
+
 // testen der API
 Route::get('/info', 'InfoController@index')->name('info.index');
 
