@@ -42,7 +42,7 @@
                                             <div class="form-group row mb-2">
                                                 <label for="balance" class="col-md-4 col-form-label text-md-right">Deposit</label>
                                                 <div class="col-md-6">
-                                                    <input type="number" min="1" step=".01" class="form-control @error('username') is-invalid @enderror" name="balance" id="balance">
+                                                    <input type="number" step=".01" class="form-control @error('balance') is-invalid @enderror" name="balance" id="balance">
                                                     @error('balance')
                                                         <span class="invalid-feedback">
                                                         {{ $message }}
@@ -74,7 +74,7 @@
                                             <div class="form-group row mb-2">
                                                 <label for="balance" class="col-md-4 col-form-label text-md-right">Withdraw</label>
                                                 <div class="col-md-6">
-                                                    <input type="number" min="1" step=".01" class="form-control @error('username') is-invalid @enderror" name="balance" id="balance">
+                                                    <input type="number" step=".01" class="form-control @error('username') is-invalid @enderror" name="balance" id="balance">
                                                     @error('balance')
                                                         <span class="invalid-feedback">
                                                         {{ $message }}

@@ -23,10 +23,11 @@ class BalanceController extends Controller
     public function update(Request $request)
     {
         $request->all();
+        $request->validate(['balance' => 'required|numeric|gte:0.01']);
         $user = User::find(Auth::user()->id);
 
         if ($request->has('deposit_form')) {
-            $user->balance += (float)($request->balance);
+            $user->balance += (float) $request->balance;
             $user->save();
         }
         else if($request->has('withdraw_form')) {
