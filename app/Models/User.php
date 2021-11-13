@@ -49,6 +49,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'balance' => 'float',
     ];
 
     public function country()

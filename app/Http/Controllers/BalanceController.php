@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use function PHPSTORM_META\type;
 
 class BalanceController extends Controller
 {
@@ -14,9 +17,30 @@ class BalanceController extends Controller
      */
     public function index()
     {
-        // dd(Auth::user()->balance);
-        $balance = Auth::user()->balance;
+        return view('user.balance');
+    }
 
-        return view('user.balance', compact('balance'));
+    public function update(Request $request)
+    {
+        $request->all();
+        $user = User::find(Auth::user()->id);
+
+        if ($request->has('deposit_form')) {
+            $user->balance += (float)($request->balance);
+            $user->save();
+        }
+        else if($request->has('withdraw_form')) {
+            if ((float) $request->balance > $user->balance) {
+                dd('withdrawing more money than in balance');
+            }
+            $user->balance -= (float) $request->balance;
+            $user->save();
+        }
+        else {
+            dd('Error');
+        }
+        
+        return redirect()->route('balance.index');
+
     }
 }

@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function() {
     });
 
     Route::middleware('can:user_verified_gate')->group(function() {
-
+        Route::put('/balance/update','BalanceController@update')->name('balance.update');
     });
 
     Route::middleware('can:admingate')->group(function() {
