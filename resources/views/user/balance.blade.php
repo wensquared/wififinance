@@ -103,7 +103,7 @@
                         Balance Transaction History
                         </button>
                     </h2>
-                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
                             <table class="table table-striped">
                                 <thead>
@@ -125,7 +125,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{-- <div class="pagination justify-content-center">{{ $users->links() }}</div> --}}
+                            <div class="pagination pag_balance justify-content-center">{{ $data->links() }}</div>
                         </div>
                     </div>
                 </div>
