@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BalanceHistory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,10 +26,17 @@ class BalanceController extends Controller
         $request->all();
         $request->validate(['balance' => 'required|numeric|gte:0.01']);
         $user = User::find(Auth::user()->id);
+        $balance_entry = new BalanceHistory();
 
         if ($request->has('deposit_form')) {
             $user->balance += (float) $request->balance;
             $user->save();
+
+            $balance_entry->user_id = Auth::user()->id;
+            $balance_entry->amount = (float) $request->balance;
+            $balance_entry->action = True;
+            $balance_entry->save();
+
         }
         else if($request->has('withdraw_form')) {
             if ((float) $request->balance > $user->balance) {
@@ -36,6 +44,11 @@ class BalanceController extends Controller
             }
             $user->balance -= (float) $request->balance;
             $user->save();
+
+            $balance_entry->user_id = Auth::user()->id;
+            $balance_entry->amount = (float) $request->balance;
+            $balance_entry->action = False;
+            $balance_entry->save();
         }
         else {
             dd('Error');

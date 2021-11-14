@@ -9,7 +9,7 @@ class BalanceHistory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['amount','action'];
+    protected $fillable = ['user_id','amount','action'];
 
     public function user()
     {
