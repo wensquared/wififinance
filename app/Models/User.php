@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class,'role_id','id');
     }
+
+    public function balance_history()
+    {
+        return $this->hasMany(BalanceHistory::class, 'user_id', 'id');
+    }
 }
