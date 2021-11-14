@@ -15,7 +15,7 @@
     @can('user_verified_gate')
         
         <h1>My Balance</h1>
-        <p>{{gettype(Auth::user()->balance)}}</p>
+        {{-- <p>{{gettype(Auth::user()->balance)}}</p> --}}
         <p>Balance: {{Auth::user()->balance ?? 0}} EUR</p>
 
         <div class="container">
@@ -88,6 +88,44 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            {{-- <h3>Balance Transaction History</h3> --}}
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        Balance Transaction History
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        {{-- <th scope="col">#</th> --}}
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Action</th>
+                                        <th scope="col">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{-- Daten aus DS auslesen in controller und hier darstellen --}}
+                                    @foreach ($data as $item)
+                                            <tr>
+                                                <td>{{ $item->amount}}</td>
+                                                <td>{{ $item->action ? 'Deposit' : 'Withdraw'}}</td>
+                                                <td>{{ $item->created_at->format('d.m.Y H:i:s') }}</td>
+                                            </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            {{-- <div class="pagination justify-content-center">{{ $users->links() }}</div> --}}
                         </div>
                     </div>
                 </div>

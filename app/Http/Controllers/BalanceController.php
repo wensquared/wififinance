@@ -18,7 +18,9 @@ class BalanceController extends Controller
      */
     public function index()
     {
-        return view('user.balance');
+        $data = BalanceHistory::where('user_id', Auth::user()->id)->orderBy('created_at','desc')->get();
+        // dd($data);
+        return view('user.balance',compact('data'));
     }
 
     public function update(Request $request)
