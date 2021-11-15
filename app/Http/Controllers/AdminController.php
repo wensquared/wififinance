@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BalanceHistory;
 use App\Models\Country;
 use App\Models\Role;
 use App\Models\User;
@@ -35,6 +36,7 @@ class AdminController extends Controller
         $users = User::with('role')->with('country')->paginate(15);
         return view('admin.index', compact('users'));
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -102,6 +104,19 @@ class AdminController extends Controller
         $user = User::where('id',$id)->first();
         
         return view('admin.show', compact('user'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_history($user_id_history)
+    {
+        $user_balance_history = BalanceHistory::where('user_id',$user_id_history)->orderBy('created_at','desc')->get();
+        // dd($user_balance_history);
+        return view('admin.show_history',compact('user_balance_history'));
     }
 
     /**

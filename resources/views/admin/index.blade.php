@@ -15,7 +15,8 @@
                 <th scope="col">Address</th>
                 <th scope="col">Postcode</th>
                 <th scope="col">Country</th>
-                <th scope="col">Verification Image</th>
+                <th scope="col">Verif. Image</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -37,10 +38,10 @@
                             @if ($user->verification_img)
                                 <a href="{{ route('admin.show',$user->id) }}" class="btn btn-outline-dark fa fa-eye"></a>
                             @else
-                                No verfication image
+                                NA
                             @endif
                         </td>
-        
+                        <td ><a href="{{ route('admin.user_history',$user->id)}}" class="btn btn-outline-dark fa fa-history"></a></td>
                         @if ( Auth::user()->id != $user->id )
                             <td><a href="{{ route('admin.edit',$user->id)}}" class="btn btn-outline-dark fa fa-edit"></a></td>
                             <td>
