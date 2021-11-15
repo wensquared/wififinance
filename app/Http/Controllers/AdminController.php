@@ -109,7 +109,7 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $user_id_history
      * @return \Illuminate\Http\Response
      */
     public function show_history($user_id_history)
