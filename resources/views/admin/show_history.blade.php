@@ -30,7 +30,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{-- <div class="pagination pag_balance justify-content-center">{{ $user_balance_history->links() }}</div> --}}
+                        <div class="pagination pag_balance justify-content-center">{{ $user_balance_history->links() }}</div>
                     </div>
             </div>
         </div>

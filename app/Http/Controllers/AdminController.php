@@ -114,7 +114,7 @@ class AdminController extends Controller
      */
     public function show_history($user_id_history)
     {
-        $user_balance_history = BalanceHistory::where('user_id',$user_id_history)->orderBy('created_at','desc')->get();
+        $user_balance_history = BalanceHistory::where('user_id',$user_id_history)->orderBy('created_at','desc')->paginate(15);
         // dd($user_balance_history);
         return view('admin.show_history',compact('user_balance_history'));
     }
