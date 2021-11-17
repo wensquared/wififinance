@@ -9,8 +9,17 @@ class InfoController extends Controller
 {
     public function index()
     {
+        
+
+        return view('info');
+    }
+
+    public function search(Request $resquest)
+    {
+        // dd($resquest->all());
+
         $client = new Client();
-        $url = "https://api.tiingo.com/iex/?tickers=aapl";
+        $url = "https://api.tiingo.com/iex/?tickers=".$resquest->ticker;
         $res = $client->get($url, [
             'headers' => [
                 'Content-type' =>  'application/json',
@@ -20,7 +29,5 @@ class InfoController extends Controller
 
         $result = json_decode($res->getBody()->getContents());
         dd($result);
-
-        return view('info');
     }
 }

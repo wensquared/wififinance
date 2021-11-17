@@ -22,6 +22,7 @@
                         <li><a href="{{route('portfolio.index')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'portfolio') ? 'text-white' : 'text-secondary' }}">Home</a></li>
                     @endguest
                     <li><a href="{{ route('faqs')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'faqs') ? 'text-white' : 'text-secondary' }}">FAQs</a></li>
+                    <li><a href="{{ route('info.index')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'info') ? 'text-white' : 'text-secondary' }}">Stock Info</a></li>
                     @auth
                         @can('admingate')
                             <li><a href="{{ route('admin.index') }}" class="nav-link px-2  {{ Str::startsWith(Route::currentRouteName(), 'admin') ? 'text-white' : 'text-secondary' }} ">Users</a></li>
@@ -97,6 +98,7 @@
     <script src="/js/jquery-3.6.0.min.js"></script>
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
     <script src="/js/script.js"></script>
     <script>
         "use strict";
