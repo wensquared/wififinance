@@ -1,13 +1,14 @@
 @extends('layouts.main')
 @section('pageTitle', 'Stock Info')
-
 @section('content')
-    <h1>Info</h1>
+    <h1>Info result</h1>
+    <h3>Price now of {{$ticker_name}}: {{ $now_price }}$</h3>
+    
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 
-                <form method="POST" action="{{ route('info.search') }}">
+                <form method="POST" action="{{ route('info.result') }}">
                     @csrf
 
                     <div class="form-group row mb-2">
@@ -32,7 +33,7 @@
                 
         </div>
     </div>
-
+    <p>{{ $description }}</p>
     <div class="container">
         <canvas id="myChart"></canvas>
     </div>
@@ -45,30 +46,34 @@
         window.myToastr('error', '{{ session('error') }}' );
     @endif
 
-    const labels = [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-            ];
-            const data = {
-                labels: labels,
-                datasets: [{
-                label: 'My First dataset',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: [0, 10, 5, 2, 20, 30, 45],
-                }]
-            };
-            const config = {
-                type: 'line',
-                data: data,
-                options: {}
-            };
-    var myChart = new Chart(
-                document.getElementById('myChart'),
-                config
-                );
+        
+        {{-- const labels = [
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                ]; --}}
+                
+        const labels = <?php echo $dates;?>;
+        const data = {
+            labels: labels,
+            datasets: [{
+            label: 'Price Chart',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            {{-- data: [0, 10, 5, 2, 20], --}}
+            
+            data: {{ $close_prices }}
+            }]
+        };
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+        var myChart = new Chart(
+                    document.getElementById('myChart'),
+                    config
+                    );
 @endsection

@@ -35,7 +35,8 @@ Route::get('/faq', function() {
 
 // testen der API
 Route::get('/info', 'InfoController@index')->name('info.index');
-Route::post('/info','InfoController@search')->name('info.search');
+Route::post('/info_result','InfoController@search')->name('info.result');
+// Route::get('/info_result','InfoController@search')->name('info.search');
 
 Route::middleware('auth')->group(function() {
 
