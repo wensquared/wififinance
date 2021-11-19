@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function() {
 
         Route::get('/balance', 'BalanceController@index')->name('balance.index');
         
+        Route::post('/info_watchlist','InfoController@watchlist')->name('info.watchlist');
         Route::resource('/user','UserController')->except(['index','create','store','show','destroy']);
     });
 

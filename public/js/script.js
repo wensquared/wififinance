@@ -71,35 +71,32 @@
             });
         });
 
-        function chartdata() {
-            const labels = [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-            ];
-            const data = {
-                labels: labels,
-                datasets: [{
-                label: 'My First dataset',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: [0, 10, 5, 2, 20, 30, 45],
-                }]
-            };
-            const config = {
-                type: 'line',
-                data: data,
-                options: {}
-            };
-                // === include 'setup' then 'config' above ===
-            
-                /* var myChart = new Chart(
-                document.getElementById('myChart'),
-                config
-                ); */
-        }
+        $('form.addWatchlist').on('submit', function (e) {
+            e.preventDefault();
+            console.log('in here');
+            const form = $(this); 
+            console.log(form.serialize());
+
+            $.ajax({
+                url: form.attr('action'),  
+                method: "POST", 
+                data: form.serialize(), 
+
+                success: function(response) {
+                    // console.log(response);
+                    if(response.status==200){
+                        // form.closest('tr').remove();  
+                        window.myToastr('success', response.msg );
+                    }
+                    else{
+                        window.myToastr('error', response.msg );
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status,  xhr.statusText); 
+                    window.myToastr('error', xhr.status +' Ein fehler ist passiert' );
+                }
+            });
+        });
     });
 })(jQuery);

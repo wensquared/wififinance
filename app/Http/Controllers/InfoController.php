@@ -13,7 +13,7 @@ class InfoController extends Controller
     }
     public function search(Request $resquest)
     {
-
+        $ticker = $resquest->ticker;
         $client = new Client();
 
         $url = "https://api.tiingo.com/iex/?tickers=".$resquest->ticker;
@@ -45,11 +45,11 @@ class InfoController extends Controller
         $tmp = json_decode($res->getBody()->getContents());
         // dd($tmp);
         foreach ($tmp as $data) {
-            $dates[] = $data->date;
+            $datum = new \DateTime($data->date);
+            
+            $dates[] = $datum->format('m-d');
             $close_prices[] = $data->close;
         }
-
-
 
 
         $url = "https://api.tiingo.com/tiingo/daily/".$resquest->ticker;
@@ -66,6 +66,30 @@ class InfoController extends Controller
         $description = $tmp->description;
         // dd($ticker_name);
 
-    return view('info.result',compact('now_price','ticker_name','description'))->with('dates',json_encode($dates,JSON_NUMERIC_CHECK))->with('close_prices',json_encode($close_prices,JSON_NUMERIC_CHECK));
+    return view('info.result',compact('now_price','ticker_name','description','ticker'))->with('dates',json_encode($dates,JSON_NUMERIC_CHECK))->with('close_prices',json_encode($close_prices,JSON_NUMERIC_CHECK));
+    }
+
+    public function watchlist(Request $request)
+    {
+        // dd($request->all());
+        if ($request->ticker) {
+            // $user->delete();
+            if ($request->ticker) {
+                // $this->deleteFile($user->verification_img)->deleteFile('show_'.$user->verification_img);
+                $status = 200;
+                $key = 'success';
+                $msg = 'Added';
+            }
+            else {
+                $status = 470;
+                $key = 'error';
+                $msg = 'PROBLEM: User couldn\'t be deleted.';
+            }
+        }
+        if( request()->ajax()) {
+            return response()->json(['status'=>$status, 'msg'=>$msg]);
+        }
+        // $users = User::get();
+        return redirect()->route('info.index');
     }
 } 

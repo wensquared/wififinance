@@ -34,6 +34,20 @@
         </div>
     </div>
     <p>{{ $description }}</p>
+
+    <div class="container">
+        <button type="submit" class="btn btn-outline-danger fa fa-heart"></button>
+        <button type="submit" class="btn btn-outline-secondary fa fa-heart"></button>
+    </div>
+
+    <div class="container">
+        <form class="addWatchlist" action="{{ route('info.watchlist')}}" method="POST" data-ticker="{{$ticker}}">
+            @csrf
+            <input type="hidden" name="ticker" value="{{$ticker}}">
+            <button type="submit" class="btn btn-outline-secondary fa fa-heart"></button>
+        </form>
+    </div>
+
     <div class="container">
         <canvas id="myChart"></canvas>
     </div>
