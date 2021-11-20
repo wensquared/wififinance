@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(BalanceHistory::class, 'user_id', 'id');
     }
+
+    public function watchlist()
+    {
+        return $this->hasMany(Watchlist::class, 'user_id', 'id');
+    }
 }
