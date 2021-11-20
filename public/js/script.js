@@ -73,17 +73,6 @@
             });
         });
 
-        $('#btnHeart').on('click', function() {
-            if($(this).hasClass('btn-outline-secondary')) {
-                console.log('class secondary');
-                $('#btnHeart').removeClass('btn-outline-secondary').addClass('btn-outline-danger');
-            }
-            else if ($(this).hasClass('btn-outline-danger')){
-                console.log('class danger');
-                $('#btnHeart').removeClass('btn-outline-danger').addClass('btn-outline-secondary');
-            }
-        });
-
         $('form.addWatchlist').on('submit', function (e) {
             e.preventDefault();
             console.log('in here');
@@ -101,6 +90,12 @@
                         // form.closest('tr').remove();  
                         window.myToastr('success', response.msg );
 
+                        if($('#btnHeart').hasClass('btn-outline-secondary')) {
+                            $('#btnHeart').removeClass('btn-outline-secondary').addClass('btn-outline-danger');
+                        }
+                        else if($('#btnHeart').hasClass('btn-outline-danger')) {
+                            $('#btnHeart').removeClass('btn-outline-danger').addClass('btn-outline-secondary');
+                        }
                     }
                     else{
                         window.myToastr('error', response.msg );
