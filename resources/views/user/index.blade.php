@@ -22,22 +22,24 @@
         </thead>
         <tbody>
             {{-- Daten aus DS auslesen in controller und hier darstellen --}}
-            {{ $count = 1}}
-            @foreach ($watchlist as $item)
-                <tr>
-                    <th scope="row">{{ $count++ }}</th>
-                    <td>{{ $item['ticker'] }}</td>
-                    <td>{{ $item['ticker_name']}}</td>
-                    <td>{{ $item['price'] }} $</td>
-                    <td>
-                        <form class="addWatchlist" action="{{ route('info.watchlist')}}" method="POST">
-                            @csrf
-                            <input type="hidden" name="ticker" value="{{$item['ticker']}}">
-                            <button type="submit" id="btnHeart" class="btn btn-outline-danger fa fa-heart"></button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
+            @if (isset($watchlist))
+                <?php $count = 1 ?>
+                @foreach ($watchlist as $item)
+                    <tr>
+                        <th scope="row">{{ $count++ }}</th>
+                        <td>{{ $item['ticker'] }}</td>
+                        <td>{{ $item['ticker_name']}}</td>
+                        <td>{{ $item['price'] }} $</td>
+                        <td>
+                            <form class="addWatchlist" action="{{ route('info.watchlist')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="ticker" value="{{$item['ticker']}}">
+                                <button type="submit" id="btnHeart" class="btn btn-outline-danger fa fa-heart"></button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
         </tbody>
     </table>
 @endsection
