@@ -68,11 +68,16 @@ class InfoController extends Controller
         $description = $tmp->description;
         // dd($ticker_name);
 
+        if(Auth::user()) {
 
-        $user_id = Auth::user()->id;
-        $user_has_ticker = Watchlist::where('ticker',$ticker)->where('user_id',$user_id)->get();
+            $user_id = Auth::user()->id;
+            $user_has_ticker = Watchlist::where('ticker',$ticker)->where('user_id',$user_id)->get();
+            return view('info.result',compact('now_price','ticker_name','description','ticker','user_has_ticker'))
+            ->with('dates',json_encode($dates,JSON_NUMERIC_CHECK))
+            ->with('close_prices',json_encode($close_prices,JSON_NUMERIC_CHECK));
+        }
 
-    return view('info.result',compact('now_price','ticker_name','description','ticker','user_has_ticker'))
+    return view('info.result',compact('now_price','ticker_name','description','ticker'))
             ->with('dates',json_encode($dates,JSON_NUMERIC_CHECK))
             ->with('close_prices',json_encode($close_prices,JSON_NUMERIC_CHECK));
     }

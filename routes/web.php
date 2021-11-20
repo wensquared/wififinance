@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     if(Auth::check()) {
-        return view('portfolio.index');
+        return redirect()->route('user.index');
     }
     return view('mainpage');
 })->name('mainpage');
@@ -33,18 +33,16 @@ Route::get('/faq', function() {
     return view('faqs');
 })->name('faqs');
 
-// testen der API
 Route::get('/info', 'InfoController@index')->name('info.index');
 Route::post('/info_result','InfoController@search')->name('info.result');
-// Route::get('/info_result','InfoController@search')->name('info.search');
 
 Route::middleware('auth')->group(function() {
 
     Route::middleware('can:usergate')->group(function() {
         // braucht noch PortfolioController, um Portfolio Daten von User zu holen und darzustellen
-        Route::get('/portfolio', function() {
-            return view('portfolio.index');
-        })->name('portfolio.index');
+        // Route::get('/portfolio', function() {
+        //     return view('portfolio.index');
+        // })->name('portfolio.index');
 
         /* Route::get('/balance', function() {
             return view('user.balance');
@@ -53,7 +51,7 @@ Route::middleware('auth')->group(function() {
         Route::get('/balance', 'BalanceController@index')->name('balance.index');
         
         Route::post('/info_watchlist','InfoController@watchlist')->name('info.watchlist');
-        Route::resource('/user','UserController')->except(['index','create','store','show','destroy']);
+        Route::resource('/user','UserController')->except(['create','store','show','destroy']);
     });
 
     Route::middleware('can:user_verified_gate')->group(function() {

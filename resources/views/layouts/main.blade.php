@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+    {{Route::currentRouteName()}}
     <header class="p-3 bg-dark text-white">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -19,7 +20,7 @@
                     @guest
                         <li><a href="/" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'mainpage') ? 'text-white' : 'text-secondary' }}">Home</a></li>
                     @else
-                        <li><a href="{{route('portfolio.index')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'portfolio') ? 'text-white' : 'text-secondary' }}">Home</a></li>
+                        <li><a href="{{route('user.index')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'user') ? 'text-white' : 'text-secondary' }}">Home</a></li>
                     @endguest
                     <li><a href="{{ route('faqs')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'faqs') ? 'text-white' : 'text-secondary' }}">FAQs</a></li>
                     <li><a href="{{ route('info.index')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'info') ? 'text-white' : 'text-secondary' }}">Stock Info</a></li>
