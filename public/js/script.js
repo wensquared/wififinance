@@ -1,5 +1,7 @@
 "use strict";
 
+// const { parseJSON } = require("jquery");
+
 (function($){
     $(document).ready(function(){
 
@@ -71,6 +73,17 @@
             });
         });
 
+        $('#btnHeart').on('click', function() {
+            if($(this).hasClass('btn-outline-secondary')) {
+                console.log('class secondary');
+                $('#btnHeart').removeClass('btn-outline-secondary').addClass('btn-outline-danger');
+            }
+            else if ($(this).hasClass('btn-outline-danger')){
+                console.log('class danger');
+                $('#btnHeart').removeClass('btn-outline-danger').addClass('btn-outline-secondary');
+            }
+        });
+
         $('form.addWatchlist').on('submit', function (e) {
             e.preventDefault();
             console.log('in here');
@@ -87,6 +100,7 @@
                     if(response.status==200){
                         // form.closest('tr').remove();  
                         window.myToastr('success', response.msg );
+
                     }
                     else{
                         window.myToastr('error', response.msg );
@@ -98,5 +112,7 @@
                 }
             });
         });
+
+        
     });
 })(jQuery);

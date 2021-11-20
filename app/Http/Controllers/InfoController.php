@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Watchlist;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 
 class InfoController extends Controller
 {
@@ -66,19 +68,40 @@ class InfoController extends Controller
         $description = $tmp->description;
         // dd($ticker_name);
 
-    return view('info.result',compact('now_price','ticker_name','description','ticker'))->with('dates',json_encode($dates,JSON_NUMERIC_CHECK))->with('close_prices',json_encode($close_prices,JSON_NUMERIC_CHECK));
+
+        $user_id = Auth::user()->id;
+        $user_has_ticker = Watchlist::where('ticker',$ticker)->where('user_id',$user_id)->get();
+
+    return view('info.result',compact('now_price','ticker_name','description','ticker','user_has_ticker'))
+            ->with('dates',json_encode($dates,JSON_NUMERIC_CHECK))
+            ->with('close_prices',json_encode($close_prices,JSON_NUMERIC_CHECK));
     }
 
     public function watchlist(Request $request)
     {
-        // dd($request->all());
+        $user_id = Auth::user()->id;
+        // dd($request->ticker);
         if ($request->ticker) {
             // $user->delete();
             if ($request->ticker) {
-                // $this->deleteFile($user->verification_img)->deleteFile('show_'.$user->verification_img);
+
+                $user_ticker = Watchlist::where('ticker',$request->ticker)->where('user_id',$user_id)->get();
+                // dd($user_ticker);
+
+                if($user_ticker->isEmpty()) {
+                    $watchlist_item = new Watchlist();
+                    $watchlist_item->user_id = $user_id;
+                    $watchlist_item->ticker = $request->ticker;
+                    $watchlist_item->save();
+                    $txt = 'Gespeichert!';
+                }
+                else {
+                    Watchlist::find($user_ticker[0]->id)->delete();
+                    $txt = 'deleted';
+                }
                 $status = 200;
                 $key = 'success';
-                $msg = 'Added';
+                $msg = 'status: '.$txt;
             }
             else {
                 $status = 470;
