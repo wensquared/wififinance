@@ -9,10 +9,15 @@ class Stocklist extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','ticker','amount','action'];
+    protected $fillable = ['user_id','ticker','amount'];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function stocklist_history()
+    {
+        return $this->hasMany(StocklistHistory::class, 'stocklist_id', 'id');
     }
 }

@@ -18,7 +18,6 @@ class CreateStocklistsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('ticker', 50);
             $table->unsignedBigInteger('amount')->nullable();
-            $table->boolean('action');
             $table->timestamps();
 
             $table->foreign('user_id')->on('users')->references('id')->onDelete('restrict')->onUpdate('cascade');
