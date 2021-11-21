@@ -46,6 +46,10 @@
             $('#deleteModalLabel').text(form.data('title'));
             $('#deleteModalBody').html(form.data('body')); 
 
+            $('#deleteModal .btn-secondary').off().on('click', function(e) { 
+                deleteModal.modal("hide"); 
+            });
+
             //Del btn event erstellen
             $('#deleteModal .btn-danger').off().on('click', function(e) { 
                 deleteModal.modal("hide"); 
@@ -108,6 +112,22 @@
             });
         });
 
-        
+        // 
+        $("#contactForm").on('submit',function(event){
+            // submitForm();
+            console.log('TADA!');
+            return false;
+        });
+        //
+
+        $('button.buybtn').on('click',function(e){
+            e.preventDefault();
+            // const form = $(this); 
+            console.log('tadadadada');
+            const exampleModal = $('#exampleModal');
+            exampleModal.modal("show");
+
+        });
+        //
     });
 })(jQuery);
