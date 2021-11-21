@@ -71,4 +71,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Watchlist::class, 'user_id', 'id');
     }
+
+    public function stocklist()
+    {
+        return $this->hasMany(Stocklist::class, 'user_id', 'id');
+    }
 }
