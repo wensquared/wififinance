@@ -64,6 +64,44 @@
     </div>
 @endsection
 
+ <!-- Modal -->
+ <div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="buyModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div id="form" class="form">
+            <form class="buy" action="{{ route('stocklist.buy')}}" method="POST" >
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group row mb-2">
+                        <label for="username" class="col-md-4 col-form-label text-md-right">Username</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" id="username" value="">
+                            @error('username')
+                                <span class="invalid-feedback">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="ticker" value="{{ $ticker }}">
+                    <input type="hidden" name="stockprice" value="{{ $now_price }}">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Buy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+
 @section('javascript')
     @if( session('success') )
         window.myToastr('success', '{{ session('success') }}' );
