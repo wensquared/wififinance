@@ -50,6 +50,10 @@
                 deleteModal.modal("hide"); 
             });
 
+            $('#deleteModal .close').off().on('click', function(e) { 
+                deleteModal.modal("hide"); 
+            });
+
             //Del btn event erstellen
             $('#deleteModal .btn-danger').off().on('click', function(e) { 
                 deleteModal.modal("hide"); 
@@ -77,6 +81,7 @@
             });
         });
 
+        // save/unsave to watchlist
         $('form.addWatchlist').on('submit', function (e) {
             e.preventDefault();
             console.log('in here');
@@ -112,22 +117,25 @@
             });
         });
 
-        // 
-        $("#contactForm").on('submit',function(event){
-            // submitForm();
-            console.log('TADA!');
-            return false;
-        });
         //
 
         $('button.buybtn').on('click',function(e){
             e.preventDefault();
             // const form = $(this); 
             console.log('tadadadada');
-            const exampleModal = $('#exampleModal');
-            exampleModal.modal("show");
+            const buyModal = $('#buyModal');
+            buyModal.modal("show");
 
+            $('#buyModal .btn-secondary').off().on('click', function(e) { 
+                buyModal.modal("hide"); 
+            });
+
+            $('#buyModal .close').off().on('click', function(e) { 
+                buyModal.modal("hide"); 
+            });
         });
+        //
+
         //
     });
 })(jQuery);
