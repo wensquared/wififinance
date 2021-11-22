@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function() {
     Route::middleware('can:admingate')->group(function() {
         Route::get('/admin/img/{img}','AdminController@showimg')->name('admin.showimg');
         Route::get('/admin/download/{img}','AdminController@download')->name('admin.download');
-        Route::get('/admin/{user_id_history}','AdminController@show_history')->name('admin.user_history');
+        Route::get('/admin/history/{user_id_history}','AdminController@show_history')->name('admin.user_history');
         Route::resource('/admin','AdminController')->except(['create']);
     });
 });

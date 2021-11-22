@@ -157,7 +157,7 @@ class UserController extends Controller
             $user->save();
         }
 
-        return redirect()->route('portfolio.index')->with('success','Your data has been updated');
+        return redirect()->route('mainpage')->with('success','Your data has been updated');
     }
 
     /**

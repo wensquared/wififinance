@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Watchlist;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -18,6 +19,7 @@ class InfoController extends Controller
         $ticker = $resquest->ticker;
         $client = new Client();
 
+        // TODO try catch, when user typed in not valid ticker
         $url = "https://api.tiingo.com/iex/?tickers=".$resquest->ticker;
         $res = $client->get($url, [
             'headers' => [
@@ -72,7 +74,8 @@ class InfoController extends Controller
 
             $user_id = Auth::user()->id;
             $user_has_ticker = Watchlist::where('ticker',$ticker)->where('user_id',$user_id)->get();
-            return view('info.result',compact('now_price','ticker_name','description','ticker','user_has_ticker'))
+            $user = User::find($user_id);
+            return view('info.result',compact('now_price','ticker_name','description','ticker','user_has_ticker','user'))
             ->with('dates',json_encode($dates,JSON_NUMERIC_CHECK))
             ->with('close_prices',json_encode($close_prices,JSON_NUMERIC_CHECK));
         }

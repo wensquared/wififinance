@@ -3,7 +3,7 @@
 
 @section('content')
 <h1>User edit</h1>
-<div class="button"><a href="{{ route('portfolio.index') }}" class="btn btn-outline-secondary">My Portfolio</a></div>
+<div class="button"><a href="{{ route('mainpage') }}" class="btn btn-outline-secondary">My Portfolio</a></div>
 <div class="contrainer">
     <div class="row justify-content-center">
         <div class="col-md-8">

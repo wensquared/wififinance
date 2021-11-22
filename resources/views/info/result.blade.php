@@ -79,10 +79,11 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row mb-2">
-                        <label for="username" class="col-md-4 col-form-label text-md-right">Username</label>
+                        <label for="username" class="col-md-4 col-form-label text-md-right">Buy stock</label>
+                        <p> {{(int) ($user->balance / $now_price)}} fit into</p>
                         <div class="col-md-6">
-                            <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" id="username" value="">
-                            @error('username')
+                            <input type="number" class="form-control @error('amount') is-invalid @enderror" name="amount" id="amount" min="1" max="{{(int) ($user->balance / $now_price)}}">
+                            @error('amount')
                                 <span class="invalid-feedback">
                                     {{ $message }}
                                 </span>
@@ -92,7 +93,8 @@
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="ticker" value="{{ $ticker }}">
-                    <input type="hidden" name="stockprice" value="{{ $now_price }}">
+                    <input type="hidden" name="price" value="{{ $now_price }}">
+                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Buy</button>
                 </div>
