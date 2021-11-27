@@ -54,6 +54,9 @@
                 <button type="button" class="btn btn-primary buybtn" data-toggle="modal" data-target="#buyModal">
                     Buy
                 </button>
+                <button type="button" class="btn btn-primary buybtn" data-toggle="modal" data-target="#buyModal">
+                    Sell
+                </button>
             </div>
         @endcan
         

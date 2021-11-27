@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Stocklist;
 use App\Models\StocklistHistory;
+use App\Models\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
@@ -36,16 +37,26 @@ class StocklistController extends Controller
             dd('price fell');
         } */
 
-        // TODO when user has ticker on watchlist, remove it, because user has it in his stocklist
-
+        // TODO check if balance is enough and substract money from balance
+        // dd(Auth::user());
+        $user = User::where('id',Auth::user()->id)->first();
+        $total = (float) $request->price * (float) $request->amount;
+        // dd($total);
+        if ($total > $user->balance) {
+            dd('not enough money');
+        }
+        $user->balance -= $total;
+        $user->save();
+        // dd(Auth::user()->balance);
         // TODO insert/update user's stocklist 
         $user_has_ticker = Stocklist::where('ticker',$ticker)->first();
         // dd($user_has_ticker);
         $user_id = Auth::user()->id;
         if ($user_has_ticker) {
+            $user_has_ticker->amount += (int) $request->amount;
+            $user_has_ticker->save();
         } else {
             Stocklist::create($request->all());
-            # code...
         }
         
         // TODO insert entry in stock_history
@@ -55,6 +66,12 @@ class StocklistController extends Controller
         $stock_history_entry->stocklist_id = $stock_id->id;
         $stock_history_entry->action = true;
         $stock_history_entry->save();
-        dd('saved???');
+        // dd('saved???');
+        return redirect()->route('mainpage');
+    }
+
+    public function sell(Request $request)
+    {
+        dd('selling');
     }
 }
