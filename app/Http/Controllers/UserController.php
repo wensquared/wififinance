@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Role;
+use App\Models\Stocklist;
 use App\Models\User;
 use App\Models\Watchlist;
 use App\Traits\FileTrait;
@@ -32,39 +33,78 @@ class UserController extends Controller
     public function index()
     {
         $user_watchlists = Watchlist::where('user_id',Auth::user()->id)->get();
+        $user_stocklist = Stocklist::where('user_id',Auth::user()->id)->get();
+        $client = new Client();
         if ($user_watchlists->isEmpty()) {
-            return view('user.index');
+            // return view('user.index');
+            $watchlist = null;
+        }
+        else {
+            
+            foreach ($user_watchlists as $value) {
+    
+                $url = "https://api.tiingo.com/iex/?tickers=".$value->ticker;
+                $res = $client->get($url, [
+                    'headers' => [
+                        'Content-type' =>  'application/json',
+                        'Authorization'     => 'Token '.config('services.tiingo.token'),
+                        ]
+                    ]);
+    
+                $tmp = json_decode($res->getBody()->getContents());
+                $now_price = $tmp[0]->last;
+    
+    
+                $url = "https://api.tiingo.com/tiingo/daily/".$value->ticker;
+                $res = $client->get($url, [
+                    'headers' => [
+                        'Content-type' =>  'application/json',
+                        'Authorization'     => 'Token '.config('services.tiingo.token'),
+                        ]
+                    ]);
+                $tmp = json_decode($res->getBody()->getContents());
+                $ticker_name = $tmp->name;
+    
+                $watchlist[] = ['ticker'=>$value->ticker, 'price'=>$now_price, 'ticker_name'=>$ticker_name];
+            }
         }
         
-        $client = new Client();
-        foreach ($user_watchlists as $value) {
-
-            $url = "https://api.tiingo.com/iex/?tickers=".$value->ticker;
-            $res = $client->get($url, [
-                'headers' => [
-                    'Content-type' =>  'application/json',
-                    'Authorization'     => 'Token '.config('services.tiingo.token'),
-                    ]
-                ]);
-
-            $tmp = json_decode($res->getBody()->getContents());
-            $now_price = $tmp[0]->last;
-
-
-            $url = "https://api.tiingo.com/tiingo/daily/".$value->ticker;
-            $res = $client->get($url, [
-                'headers' => [
-                    'Content-type' =>  'application/json',
-                    'Authorization'     => 'Token '.config('services.tiingo.token'),
-                    ]
-                ]);
-            $tmp = json_decode($res->getBody()->getContents());
-            $ticker_name = $tmp->name;
-
-            $watchlist[] = ['ticker'=>$value->ticker, 'price'=>$now_price, 'ticker_name'=>$ticker_name];
+        if ($user_stocklist->isEmpty()) {
+            $stocklist = null;
+        } else {
+            foreach ($user_stocklist as $stock) {
+                $url = "https://api.tiingo.com/iex/?tickers=".$stock->ticker;
+                $res = $client->get($url, [
+                    'headers' => [
+                        'Content-type' =>  'application/json',
+                        'Authorization'     => 'Token '.config('services.tiingo.token'),
+                        ]
+                    ]);
+    
+                $tmp = json_decode($res->getBody()->getContents());
+                $now_price = $tmp[0]->last;
+    
+    
+                $url = "https://api.tiingo.com/tiingo/daily/".$stock->ticker;
+                $res = $client->get($url, [
+                    'headers' => [
+                        'Content-type' =>  'application/json',
+                        'Authorization'     => 'Token '.config('services.tiingo.token'),
+                        ]
+                    ]);
+                $tmp = json_decode($res->getBody()->getContents());
+                $ticker_name = $tmp->name;
+    
+                //TODO calculate from history the $$ of stock, get latest prices if some stock got sold
+    
+                $stocklist[] = ['ticker'=>$stock->ticker, 'price'=>$now_price, 'ticker_name'=>$ticker_name, 'holding'=>'TODO', 'stock_amount'=>$stock->amount];
+            }
         }
+        
+        
 
-        return view('user.index', compact('watchlist'));
+
+        return view('user.index', compact('watchlist','stocklist'));
     }
 
     /**

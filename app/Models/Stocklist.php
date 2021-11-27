@@ -18,6 +18,6 @@ class Stocklist extends Model
 
     public function stocklist_history()
     {
-        return $this->hasMany(StocklistHistory::class, 'stocklist_id', 'id');
+        return $this->hasMany(StocklistHistory::class, 'stocklist_id', 'id')->orderBy('created_at','desc');
     }
 }

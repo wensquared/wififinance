@@ -3,7 +3,9 @@
 @section('content')
     <h1>Info result</h1>
     <h3>Price now of {{$ticker_name}}: {{ $now_price }}$</h3>
-    
+    @if ($num_of_stocks)
+        <h4>You have: {{$num_of_stocks}} in your portfolio</h4>
+    @endif
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -54,9 +56,11 @@
                 <button type="button" class="btn btn-primary buybtn" data-toggle="modal" data-target="#buyModal">
                     Buy
                 </button>
-                <button type="button" class="btn btn-primary buybtn" data-toggle="modal" data-target="#buyModal">
-                    Sell
-                </button>
+                @if ($num_of_stocks)
+                    <button type="button" class="btn btn-primary sellbtn" data-toggle="modal" data-target="#sellModal">
+                        Sell
+                    </button>
+                @endif
             </div>
         @endcan
         
@@ -100,6 +104,45 @@
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Buy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="sellModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="sellModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div id="form" class="form">
+            <form class="sell" action="{{ route('stocklist.sell')}}" method="POST" >
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group row mb-2">
+                        <label for="username" class="col-md-4 col-form-label text-md-right">Sell stock</label>
+                        <p>You have {{$num_of_stocks}} Stocks</p>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control @error('amount') is-invalid @enderror" name="amount" id="amount" min="1" max="{{(int) $num_of_stocks}}">
+                            @error('amount')
+                                <span class="invalid-feedback">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="ticker" value="{{ $ticker }}">
+                    <input type="hidden" name="price" value="{{ $now_price }}">
+                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Sell</button>
                 </div>
             </form>
         </div>

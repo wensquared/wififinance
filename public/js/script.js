@@ -135,6 +135,22 @@
             });
         });
         //
+        $('button.sellbtn').on('click',function(e){
+            e.preventDefault();
+            // const form = $(this); 
+            console.log('tadadadada');
+            const buyModal = $('#sellModal');
+            buyModal.modal("show");
+
+            $('#sellModal .btn-secondary').off().on('click', function(e) { 
+                buyModal.modal("hide"); 
+            });
+
+            $('#sellModal .close').off().on('click', function(e) { 
+                buyModal.modal("hide"); 
+            });
+        });
+        //
 
         //
     });

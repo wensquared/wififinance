@@ -23,7 +23,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 /* Route::get('/info', function() {
     return view('info');
@@ -39,14 +39,6 @@ Route::post('/info_result','InfoController@search')->name('info.result');
 Route::middleware('auth')->group(function() {
 
     Route::middleware('can:usergate')->group(function() {
-        // braucht noch PortfolioController, um Portfolio Daten von User zu holen und darzustellen
-        // Route::get('/portfolio', function() {
-        //     return view('portfolio.index');
-        // })->name('portfolio.index');
-
-        /* Route::get('/balance', function() {
-            return view('user.balance');
-        })->name('user.balance'); */
 
         Route::get('/balance', 'BalanceController@index')->name('balance.index');
         
@@ -58,6 +50,7 @@ Route::middleware('auth')->group(function() {
         Route::put('/balance/update','BalanceController@update')->name('balance.update');
         Route::post('/buy','StocklistController@buy')->name('stocklist.buy');
         Route::post('/sell','StocklistController@sell')->name('stocklist.sell');
+        Route::get('/user/stockhistory/{ticker}','StocklistController@show')->name('stocklist.show');
     });
 
     Route::middleware('can:admingate')->group(function() {

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    {{Route::currentRouteName()}}
+    {{-- {{Route::currentRouteName()}} --}}
     <header class="p-3 bg-dark text-white">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -42,7 +42,7 @@
                     @endif
                 @else
                     {{-- <a href="{{ route('user.balance')}}"><button type="button" class="btn btn-info">Balance</button></a> --}}
-                    <a href="{{ route('balance.index')}}"><button type="button" class="btn btn-info">{{Auth::user()->balance ? Auth::user()->balance.' EUR' : 'Balance'}}</button></a>
+                    <a href="{{ route('balance.index')}}"><button type="button" class="btn btn-info">{{Auth::user()->balance ? Auth::user()->balance.' $' : 'Balance'}}</button></a>
 
                     <div class="dropdown show">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Stocklist;
 use App\Models\User;
 use App\Models\Watchlist;
 use Illuminate\Http\Request;
@@ -70,12 +71,23 @@ class InfoController extends Controller
         $description = $tmp->description;
         // dd($ticker_name);
 
+
+        //check if user has ticker in stocklist
+        $user_has_ticker = Stocklist::where('user_id',Auth::user()->id)->where('ticker',$ticker)->first();
+        if($user_has_ticker) {
+            $num_of_stocks = $user_has_ticker->amount;
+        }
+        else {
+            $num_of_stocks = null;
+        }
+
+
         if(Auth::user()) {
 
             $user_id = Auth::user()->id;
             $user_has_ticker = Watchlist::where('ticker',$ticker)->where('user_id',$user_id)->get();
             $user = User::find($user_id);
-            return view('info.result',compact('now_price','ticker_name','description','ticker','user_has_ticker','user'))
+            return view('info.result',compact('now_price','ticker_name','description','ticker','user_has_ticker','user','num_of_stocks'))
             ->with('dates',json_encode($dates,JSON_NUMERIC_CHECK))
             ->with('close_prices',json_encode($close_prices,JSON_NUMERIC_CHECK));
         }
