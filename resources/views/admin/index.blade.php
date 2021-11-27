@@ -16,7 +16,8 @@
                 <th scope="col">Postcode</th>
                 <th scope="col">Country</th>
                 <th scope="col">Verif. Image</th>
-                <th scope="col"></th>
+                <th scope="col">$</th>
+                <th scope="col">Stocks</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -42,6 +43,7 @@
                             @endif
                         </td>
                         <td ><a href="{{ route('admin.user_history',$user->id)}}" class="btn btn-outline-dark fa fa-history"></a></td>
+                        <td ><a href="{{ route('admin.user_stock_history',$user->id)}}" class="btn btn-outline-dark fa fa-history"></a></td>
                         @if ( Auth::user()->id != $user->id )
                             <td><a href="{{ route('admin.edit',$user->id)}}" class="btn btn-outline-dark fa fa-edit"></a></td>
                             <td>

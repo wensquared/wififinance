@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\BalanceHistory;
 use App\Models\Country;
 use App\Models\Role;
+use App\Models\Stocklist;
+use App\Models\StocklistHistory;
 use App\Models\User;
 use App\Traits\FileTrait;
 use Illuminate\Http\Request;
@@ -117,6 +119,25 @@ class AdminController extends Controller
         $user_balance_history = BalanceHistory::where('user_id',$user_id_history)->orderBy('created_at','desc')->paginate(15);
         // dd($user_balance_history);
         return view('admin.show_history',compact('user_balance_history'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $user_id_history
+     * @return \Illuminate\Http\Response
+     */
+    public function show_stock_history($user_id_history)
+    {
+        $user_stock_ids = Stocklist::where('user_id',$user_id_history)->get('id');
+        // dd($user_stock_ids);
+        foreach ($user_stock_ids as $key) {
+            $array_ids[] = $key->id;
+        }
+        // dd($array_ids);
+        $user_stock_history = StocklistHistory::whereIn('stocklist_id',$array_ids)->with('stocklist')->get();
+        // dd($user_stock_history);
+        return view('admin.show_stock_history',compact('user_stock_history'));
     }
 
     /**
