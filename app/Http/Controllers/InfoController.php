@@ -17,6 +17,7 @@ class InfoController extends Controller
     }
     public function search(Request $resquest)
     {
+        // dd($var);
         $ticker = $resquest->ticker;
         $client = new Client();
 
@@ -74,16 +75,16 @@ class InfoController extends Controller
 
 
         //check if user has ticker in stocklist
-        $user_has_ticker = Stocklist::where('user_id',Auth::user()->id)->where('ticker',$ticker)->first();
-        if($user_has_ticker) {
-            $num_of_stocks = $user_has_ticker->amount;
-        }
-        else {
-            $num_of_stocks = null;
-        }
-
-
+        
+        
         if(Auth::user()) {
+            $user_has_ticker = Stocklist::where('user_id',Auth::user()->id)->where('ticker',$ticker)->first();
+            if($user_has_ticker) {
+                $num_of_stocks = $user_has_ticker->amount;
+            }
+            else {
+                $num_of_stocks = null;
+            }
 
             $user_id = Auth::user()->id;
             $user_has_ticker = Watchlist::where('ticker',$ticker)->where('user_id',$user_id)->get();
@@ -135,5 +136,10 @@ class InfoController extends Controller
         }
         // $users = User::get();
         return redirect()->route('info.index');
+    }
+
+    public function test(Request $request)
+    {
+        dd($request->input('ticker'));
     }
 } 

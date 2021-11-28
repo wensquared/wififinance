@@ -10,7 +10,7 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Ticker</th>
+                    {{-- <th scope="col">Ticker</th> --}}
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
                     <th scope="col">Avg. Cost/share</th>
@@ -30,8 +30,14 @@
                     @foreach ($stocklist as $item)
                         <tr>
                             <th scope="row">{{ $count++ }}</th>
-                            <td>{{ $item['ticker'] }}</td>
-                            <td>{{ $item['ticker_name']}} TODO/td>
+                            {{-- <td>{{ $item['ticker'] }}</td> --}}
+                            <td>
+                                <form method="POST" action="{{ route('info.result') }}">
+                                    @csrf
+                                    <input type="hidden" name="ticker" value="{{ $item['ticker'] }}">
+                                    <button type="submit" class="btn-link">{{ $item['ticker_name'].' ('.$item['ticker'].')' }}</button>
+                                </form>
+                            </td>
                             <td>{{ $item['price'] }} $</td>
                             <td>{{ $item['avg_price_per_share'] }} $</td>
                             <td>{{ $item['stock_amount'] }}</td>
@@ -144,7 +150,7 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Ticker</th>
+                {{-- <th scope="col">Ticker</th> --}}
                 <th scope="col">Name</th>
                 <th scope="col">Price</th>
                 <th scope="col"></th>
@@ -158,8 +164,14 @@
                 @foreach ($watchlist as $item)
                     <tr>
                         <th scope="row">{{ $count++ }}</th>
-                        <td>{{ $item['ticker'] }}</td>
-                        <td>{{ $item['ticker_name']}}</td>
+                        {{-- <td>{{ $item['ticker'] }}</td> --}}
+                        <td>
+                            <form method="POST" action="{{ route('info.result') }}">
+                                @csrf
+                                <input type="hidden" name="ticker" value="{{ $item['ticker'] }}">
+                                <button type="submit" class="btn-link">{{ $item['ticker_name'].' ('.$item['ticker'].')' }}</button>
+                            </form>
+                        </td>
                         <td>{{ $item['price'] }} $</td>
                         <td>
                             <form class="addWatchlist" action="{{ route('info.watchlist')}}" method="POST">

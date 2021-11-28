@@ -35,6 +35,7 @@ Route::get('/faq', function() {
 
 Route::get('/info', 'InfoController@index')->name('info.index');
 Route::post('/info_result','InfoController@search')->name('info.result');
+Route::get('/info_test/{here?}','InfoController@test')->name('info.test');
 
 Route::middleware('auth')->group(function() {
 
