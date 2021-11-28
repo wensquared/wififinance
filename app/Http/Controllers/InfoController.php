@@ -31,8 +31,11 @@ class InfoController extends Controller
         // $result[] = json_decode($res->getBody()->getContents());
 
         $tmp = json_decode($res->getBody()->getContents());
+        if (!$tmp) {
+            # code...
+            return redirect()->route('info.index')->with('error','Stock with Ticker '.$resquest->ticker.' does not exist.');
+        }
         $now_price = $tmp[0]->last;
-        // dd($now_price);
 
 
         $date_now = date('Y-m-d');
