@@ -140,6 +140,7 @@
             </tbody>
         </table>
         @endif
+        <a href="{{ route('stocklist.stock_history')}}" class="btn btn-primary">History</a>
     @endcan
 
 

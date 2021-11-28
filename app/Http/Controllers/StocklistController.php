@@ -136,4 +136,17 @@ class StocklistController extends Controller
         // dd($stock_history->stocklist_history);
         return view('user.stock_history', compact('stock_history'));
     }
+
+    public function show_stock_history()
+    {
+        $user_stock_ids = Stocklist::where('user_id',Auth::user()->id)->get('id');
+        // dd($user_stock_ids);
+        foreach ($user_stock_ids as $key) {
+            $array_ids[] = $key->id;
+        }
+        // dd($array_ids);
+        $stock_history = StocklistHistory::whereIn('stocklist_id',$array_ids)->with('stocklist')->get();
+        // dd($stock_history);
+        return view('user.all_stock_history',compact('stock_history'));
+    }
 }

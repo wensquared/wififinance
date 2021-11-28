@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function() {
         Route::post('/buy','StocklistController@buy')->name('stocklist.buy');
         Route::post('/sell','StocklistController@sell')->name('stocklist.sell');
         Route::get('/user/stockhistory/{ticker}','StocklistController@show')->name('stocklist.show');
+        Route::get('/user/stock_history','StocklistController@show_stock_history')->name('stocklist.stock_history');
     });
 
     Route::middleware('can:admingate')->group(function() {

@@ -2,8 +2,7 @@
 @section('pageTitle', 'User verification image')
 
 @section('content')
-<h1>User History</h1>
-<div class="button"><a href="{{ route('admin.index') }}" class="btn btn-outline-secondary">All Users admin</a></div>
+<h1>All Stock Transaction</h1>
 <div class="contrainer">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -24,7 +23,7 @@
                             </thead>
                             <tbody>
                                 {{-- Daten aus DS auslesen in controller und hier darstellen --}}
-                                @foreach ($user_stock_history as $item)
+                                @foreach ($stock_history as $item)
                                         <tr>
                                             <td>{{ $item->stocklist->ticker}}</td>
                                             <td>{{ $item->price}}$</td>
