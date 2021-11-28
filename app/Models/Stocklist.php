@@ -20,4 +20,14 @@ class Stocklist extends Model
     {
         return $this->hasMany(StocklistHistory::class, 'stocklist_id', 'id')->orderBy('created_at','desc');
     }
+
+    public function stocklist_history_buy()
+    {
+        return $this->hasMany(StocklistHistory::class, 'stocklist_id', 'id')->where('action',true);
+    }
+
+    public function stocklist_history_sell()
+    {
+        return $this->hasMany(StocklistHistory::class, 'stocklist_id', 'id')->orderBy('created_at','desc')->where('action',false);
+    }
 }

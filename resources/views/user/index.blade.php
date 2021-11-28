@@ -13,7 +13,10 @@
                     <th scope="col">Ticker</th>
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Holdings</th>
+                    <th scope="col">Avg. Cost/share</th>
+                    <th scope="col">Shares</th>
+                    <th scope="col">Holdings Value</th>
+                    <th scope="col">Profit/Loss</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
@@ -30,13 +33,13 @@
                             <td>{{ $item['ticker'] }}</td>
                             <td>{{ $item['ticker_name']}} TODO/td>
                             <td>{{ $item['price'] }} $</td>
-                            <td>{{ $item['holding'] }} $
-                                <br>
-                                percent +/- here %
-                            </td>
+                            <td>{{ $item['avg_price_per_share'] }} $</td>
+                            <td>{{ $item['stock_amount'] }}</td>
+                            <td>{{ $item['holding_value'] }} $</td>
+                            <td>{{ $item['profit_loss'] }} %</td>
                             <td><a href="{{ route('stocklist.show', $item['ticker']) }}" class="btn btn-outline-dark fa fa-history"></a></td>
                             <td>
-                                <button type="button" class="btn btn-primary buybtn" data-toggle="modal" data-target="#buyModal">
+                                <button type="button" class="btn btn-primary buybtn" data-toggle="modal" data-target="#buyModal" data-text="{{$item['ticker'] }} | {{ $item['price'] }}">
                                     Buy
                                 </button>
                             </td>
@@ -63,8 +66,8 @@
                                         <div class="modal-body">
                                             <div class="form-group row mb-2">
                                                 <label for="username" class="col-md-4 col-form-label text-md-right">Buy stock</label>
-                                                <p >{{$item['ticker'] }} | {{ $item['price'] }}</p>
-                                                <p>{{(int) (Auth::user()->balance / $item['price'])}}</p>
+                                                {{-- <p >{{$item['ticker'] }} | {{ $item['price'] }}</p> --}}
+                                                {{-- <p>{{(int) (Auth::user()->balance / $item['price'])}}</p> --}}
                                                 <div class="col-md-6">
                                                     <input type="number" class="form-control @error('amount') is-invalid @enderror" name="amount" id="amount" min="1" max="{{(int) (Auth::user()->balance / $item['price'])}}">
                                                     @error('amount')
@@ -103,6 +106,7 @@
                                         <div class="modal-body">
                                             <div class="form-group row mb-2">
                                                 <label for="username" class="col-md-4 col-form-label text-md-right">Sell stock</label>
+                                                <p >{{$item['ticker'] }} | {{ $item['price'] }}</p>
                                                 <p>You have {{$item['stock_amount']}} Stocks</p>
                                                 <div class="col-md-6">
                                                     <input type="number" class="form-control @error('amount') is-invalid @enderror" name="amount" id="amount" min="1" max="{{ $item['stock_amount']}}">

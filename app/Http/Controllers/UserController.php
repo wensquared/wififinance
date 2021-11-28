@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\Role;
 use App\Models\Stocklist;
+use App\Models\StocklistHistory;
 use App\Models\User;
 use App\Models\Watchlist;
 use App\Traits\FileTrait;
@@ -95,15 +96,51 @@ class UserController extends Controller
                 $tmp = json_decode($res->getBody()->getContents());
                 $ticker_name = $tmp->name;
     
-                //TODO calculate from history the $$ of stock, get latest prices if some stock got sold
-    
-                $stocklist[] = ['ticker'=>$stock->ticker, 'price'=>$now_price, 'ticker_name'=>$ticker_name, 'holding'=>'TODO', 'stock_amount'=>$stock->amount];
+
+                $buy_stock_history = Stocklist::where('ticker',$stock->ticker)->where('user_id',Auth::user()->id)->with('stocklist_history_buy')->first();
+                $sell_stock_history = Stocklist::where('ticker',$stock->ticker)->where('user_id',Auth::user()->id)->with('stocklist_history_sell')->first();
+                $stock_remain = $buy_stock_history->stocklist_history_buy->sum('amount') - $sell_stock_history->stocklist_history_sell->sum('amount');
+                $rest = $stock_remain;
+                foreach ($buy_stock_history->stocklist_history_buy as $key) {
+                    $amount_array[] = $key->amount;
+                    $price_array[] = $key->price;
+                }
+        
+                $j = 0;
+                $avg_holding_price = 0;
+                for ($i=$stock_remain; $i > 0; $i--) { 
+                    if($rest <= $amount_array[$j]){
+                        $avg_holding_price += $price_array[$j];
+                    }
+                    else {
+                        $m = 0;
+                        for ($k=0; $k < $amount_array[$j]; $k++) { 
+                            $avg_holding_price += $price_array[$j];
+                            $m++;
+                        }
+                        $i -= ($m-1);
+                        $rest -= $amount_array[$j];
+                        $j++;
+                    }
+                }
+                
+                $avg_price_per_share = $avg_holding_price / $stock_remain;
+                $holding_value = $now_price*$stock->amount;
+                $profit_loss = (float)($holding_value - $avg_holding_price)/ $avg_holding_price;
+                $profit_loss = round($profit_loss*100,2);
+
+
+                $stocklist[] = ['ticker'=>$stock->ticker, 
+                                'ticker_name'=>$ticker_name, 
+                                'price'=>$now_price, 
+                                'avg_price_per_share'=>$avg_price_per_share,
+                                'stock_amount'=>$stock->amount,
+                                'holding_value'=>$holding_value,
+                                'profit_loss'=>$profit_loss,
+                            ];
             }
         }
         
-        
-
-
         return view('user.index', compact('watchlist','stocklist'));
     }
 

@@ -121,10 +121,11 @@
 
         $('button.buybtn').on('click',function(e){
             e.preventDefault();
-            // const form = $(this); 
+            const form = $(this); 
             console.log('tadadadada');
             const buyModal = $('#buyModal');
             buyModal.modal("show");
+            console.log(form.data('text'));
 
             $('#buyModal .btn-secondary').off().on('click', function(e) { 
                 buyModal.modal("hide"); 
