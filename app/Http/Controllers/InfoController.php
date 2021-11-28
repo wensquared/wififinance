@@ -20,7 +20,6 @@ class InfoController extends Controller
         $ticker = $resquest->ticker;
         $client = new Client();
 
-        // TODO try catch, when user typed in not valid ticker
         $url = "https://api.tiingo.com/iex/?tickers=".$resquest->ticker;
         $res = $client->get($url, [
             'headers' => [
@@ -32,7 +31,6 @@ class InfoController extends Controller
 
         $tmp = json_decode($res->getBody()->getContents());
         if (!$tmp) {
-            # code...
             return redirect()->route('info.index')->with('error','Stock with Ticker '.$resquest->ticker.' does not exist.');
         }
         $now_price = $tmp[0]->last;

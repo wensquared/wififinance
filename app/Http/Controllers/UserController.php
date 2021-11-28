@@ -34,7 +34,7 @@ class UserController extends Controller
     public function index()
     {
         $user_watchlists = Watchlist::where('user_id',Auth::user()->id)->get();
-        $user_stocklist = Stocklist::where('user_id',Auth::user()->id)->get();
+        $user_stocklist = Stocklist::where('user_id',Auth::user()->id)->where('amount','>',0)->get();
         $client = new Client();
         if ($user_watchlists->isEmpty()) {
             // return view('user.index');
