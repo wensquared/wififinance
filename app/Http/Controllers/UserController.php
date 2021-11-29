@@ -247,17 +247,4 @@ class UserController extends Controller
     {
         //
     }
-
-    public function show_stock_history()
-    {
-        $user_stock_ids = Stocklist::where('user_id',Auth::user()->id)->get('id');
-        // dd($user_stock_ids);
-        foreach ($user_stock_ids as $key) {
-            $array_ids[] = $key->id;
-        }
-        // dd($array_ids);
-        $user_stock_history = StocklistHistory::whereIn('stocklist_id',$array_ids)->with('stocklist')->get();
-        // dd($user_stock_history);
-        return view('user.show_stock_history',compact('user_stock_history'));
-    }
 }
