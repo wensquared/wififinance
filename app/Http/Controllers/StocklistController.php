@@ -14,7 +14,7 @@ class StocklistController extends Controller
 {
     public function buy(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
 
         $ticker = $request->ticker;
         $client = new Client();
@@ -72,7 +72,7 @@ class StocklistController extends Controller
 
     public function sell(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
 
         $ticker = $request->ticker;
         $client = new Client();

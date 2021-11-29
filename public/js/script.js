@@ -124,7 +124,12 @@
             const form = $(this); 
             const buyModal = $('#buyModal');
             buyModal.modal("show");
-            console.log(form.data('text'));
+            $('#buyPrice').attr('value',form.data('price'));
+            $('#buyTicker').attr('value',form.data('ticker'));
+
+            const numShares = parseInt(form.data('balance') / form.data('price'));
+            $('#buyAmount').attr('max',numShares); 
+            $('#buyNumShares').html('You can buy ' + numShares + ' shares.');
 
             $('#buyModal .btn-secondary').off().on('click', function(e) { 
                 buyModal.modal("hide"); 
@@ -137,40 +142,26 @@
         //
         $('button.sellbtn').on('click',function(e){
             e.preventDefault();
-            // const form = $(this); 
-            const buyModal = $('#sellModal');
-            buyModal.modal("show");
+            const form = $(this); 
+            const sellModal = $('#sellModal');
+            sellModal.modal("show");
+
+            $('#sellPrice').attr('value',form.data('price'));
+            $('#sellTicker').attr('value',form.data('ticker'));
+            $('#sellAmount').attr('max',form.data('amount')); 
+
+            $('#sellNumShares').html('You can sell ' + form.data('amount') + ' shares.');
 
             $('#sellModal .btn-secondary').off().on('click', function(e) { 
-                buyModal.modal("hide"); 
+                sellModal.modal("hide"); 
             });
 
             $('#sellModal .close').off().on('click', function(e) { 
-                buyModal.modal("hide"); 
+                sellModal.modal("hide"); 
             });
         });
         //
-        $('button.buybtn1').on('click',function(e){
-            e.preventDefault();
-            const form = $(this); 
-            const buyModal1 = $('#buyModal1');
-            buyModal1.modal("show");
-            console.log(form.data('text'));
-            $('#test p').text(form.data('text'));
-            $('#test1 p').text(form.data('ticker'));
-            console.log(form.data('price'));
-            $('#price11').attr('value',form.data('price'));
-            $('#ticker11').attr('value',form.data('ticker'));
 
-
-            $('#buyModal1 .btn-secondary').off().on('click', function(e) { 
-                buyModal1.modal("hide"); 
-            });
-
-            $('#buyModal1 .close').off().on('click', function(e) { 
-                buyModal1.modal("hide"); 
-            });
-        });
         //
     });
 })(jQuery);

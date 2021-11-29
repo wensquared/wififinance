@@ -41,7 +41,6 @@
                         <a href="{{ route('register')}}"><button type="button" class="btn btn-warning">Sign-up</button></a>
                     @endif
                 @else
-                    {{-- <a href="{{ route('user.balance')}}"><button type="button" class="btn btn-info">Balance</button></a> --}}
                     <a href="{{ route('balance.index')}}"><button type="button" class="btn btn-info">{{Auth::user()->balance ? Auth::user()->balance.' $' : 'Balance'}}</button></a>
 
                     <div class="dropdown show">
@@ -76,24 +75,107 @@
         </div>
     </footer>
 
-    <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="deleteModalBody"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
+    @can('user_verified_gate')
+    <div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="buyModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <p id="buyNumShares"></p>
+            <div id="form" class="form">
+                <form class="buy" action="{{ route('stocklist.buy')}}" method="POST" >
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group row mb-2">
+                            <label for="username" class="col-md-4 col-form-label text-md-right">Buy stock</label>
+                            <div class="col-md-6">
+                                <input type="number" class="amount form-control @error('amount') is-invalid @enderror" name="amount" id="buyAmount" min="1">
+                                @error('amount')
+                                    <span class="invalid-feedback">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="ticker" id="buyTicker">
+                        <input type="hidden" name="price" id="buyPrice">
+                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Buy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="sellModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="sellModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <p id="sellNumShares"></p>
+            <div id="form" class="form">
+                <form class="sell" action="{{ route('stocklist.sell')}}" method="POST" >
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group row mb-2">
+                            <label for="username" class="col-md-4 col-form-label text-md-right">Sell stock</label>
+                            <div class="col-md-6">
+                                <input type="number" class="amount form-control @error('amount') is-invalid @enderror" name="amount" id="sellAmount" min="1">
+                                @error('amount')
+                                    <span class="invalid-feedback">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="ticker" id="sellTicker">
+                        <input type="hidden" name="price" id="sellPrice">
+                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Sell</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    @endcan
+
+    @can('admingate')
+        <!-- Modal Delete -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="deleteModalBody"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endcan
 
     <script src="/js/jquery-3.6.0.min.js"></script>
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
