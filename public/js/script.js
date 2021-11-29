@@ -122,7 +122,6 @@
         $('button.buybtn').on('click',function(e){
             e.preventDefault();
             const form = $(this); 
-            console.log('tadadadada');
             const buyModal = $('#buyModal');
             buyModal.modal("show");
             console.log(form.data('text'));
@@ -139,7 +138,6 @@
         $('button.sellbtn').on('click',function(e){
             e.preventDefault();
             // const form = $(this); 
-            console.log('tadadadada');
             const buyModal = $('#sellModal');
             buyModal.modal("show");
 
@@ -152,7 +150,27 @@
             });
         });
         //
+        $('button.buybtn1').on('click',function(e){
+            e.preventDefault();
+            const form = $(this); 
+            const buyModal1 = $('#buyModal1');
+            buyModal1.modal("show");
+            console.log(form.data('text'));
+            $('#test p').text(form.data('text'));
+            $('#test1 p').text(form.data('ticker'));
+            console.log(form.data('price'));
+            $('#price11').attr('value',form.data('price'));
+            $('#ticker11').attr('value',form.data('ticker'));
 
+
+            $('#buyModal1 .btn-secondary').off().on('click', function(e) { 
+                buyModal1.modal("hide"); 
+            });
+
+            $('#buyModal1 .close').off().on('click', function(e) { 
+                buyModal1.modal("hide"); 
+            });
+        });
         //
     });
 })(jQuery);

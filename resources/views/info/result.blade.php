@@ -57,7 +57,7 @@
         @can('user_verified_gate')
             <div class="container">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary buybtn" data-toggle="modal" data-target="#buyModal">
+                <button type="button" class="btn btn-primary buybtn1" data-toggle="modal" data-target="#buyModal1" data-text="{{$ticker }} | {{ $now_price }}" data-ticker="{{$ticker}}" data-price="{{$now_price}}">
                     Buy
                 </button>
                 @if ($num_of_stocks)
@@ -68,7 +68,7 @@
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
+            <div class="modal fade" id="buyModal1" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -95,8 +95,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <input type="hidden" name="ticker" value="{{ $ticker }}">
-                                <input type="hidden" name="price" value="{{ $now_price }}">
+                                <input type="hidden" name="ticker" id="ticker11">
+                                <input type="hidden" name="price" id="price11">
                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                 <button type="submit" class="btn btn-primary">Buy</button>

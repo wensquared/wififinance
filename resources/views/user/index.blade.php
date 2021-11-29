@@ -45,7 +45,7 @@
                             <td>{{ $item['profit_loss'] }} %</td>
                             <td><a href="{{ route('stocklist.show', $item['ticker']) }}" class="btn btn-outline-dark fa fa-history"></a></td>
                             <td>
-                                <button type="button" class="btn btn-primary buybtn" data-toggle="modal" data-target="#buyModal" data-text="{{$item['ticker'] }} | {{ $item['price'] }}">
+                                <button type="button" class="btn btn-primary buybtn1" data-toggle="modal" data-target="#buyModal1" data-text="{{$item['ticker'] }} | {{ $item['price'] }}" data-ticker="{{$item['ticker']}}" data-price="{{$item['price']}}">
                                     Buy
                                 </button>
                             </td>
@@ -57,7 +57,7 @@
                         </tr>
 
 
-                        <div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="buyModal1" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -72,8 +72,6 @@
                                         <div class="modal-body">
                                             <div class="form-group row mb-2">
                                                 <label for="username" class="col-md-4 col-form-label text-md-right">Buy stock</label>
-                                                {{-- <p >{{$item['ticker'] }} | {{ $item['price'] }}</p> --}}
-                                                {{-- <p>{{(int) (Auth::user()->balance / $item['price'])}}</p> --}}
                                                 <div class="col-md-6">
                                                     <input type="number" class="form-control @error('amount') is-invalid @enderror" name="amount" id="amount" min="1" max="{{(int) (Auth::user()->balance / $item['price'])}}">
                                                     @error('amount')
@@ -85,8 +83,8 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <input type="hidden" name="ticker" value="{{ $item['ticker'] }}">
-                                            <input type="hidden" name="price" value="{{ $item['price'] }}">
+                                            <input type="hidden" name="ticker" id="ticker11">
+                                            <input type="hidden" name="price" id="price11">
                                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                             <button type="submit" class="btn btn-primary">Buy</button>
