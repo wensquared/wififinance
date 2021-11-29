@@ -101,6 +101,8 @@ class UserController extends Controller
                 $sell_stock_history = Stocklist::where('ticker',$stock->ticker)->where('user_id',Auth::user()->id)->with('stocklist_history_sell')->first();
                 $stock_remain = $buy_stock_history->stocklist_history_buy->sum('amount') - $sell_stock_history->stocklist_history_sell->sum('amount');
                 $rest = $stock_remain;
+                $amount_array = null;
+                $price_array = null;
                 foreach ($buy_stock_history->stocklist_history_buy as $key) {
                     $amount_array[] = $key->amount;
                     $price_array[] = $key->price;
@@ -140,6 +142,7 @@ class UserController extends Controller
                             ];
             }
         }
+        // dd($stocklist);
         
         return view('user.index', compact('watchlist','stocklist'));
     }
