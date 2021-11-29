@@ -133,10 +133,10 @@ class UserController extends Controller
 
                 $stocklist[] = ['ticker'=>$stock->ticker, 
                                 'ticker_name'=>$ticker_name, 
-                                'price'=>number_format($now_price,2), 
-                                'avg_price_per_share'=>number_format($avg_price_per_share,2),
+                                'price'=>round($now_price,2), 
+                                'avg_price_per_share'=>round($avg_price_per_share,2),
                                 'stock_amount'=>$stock->amount,
-                                'holding_value'=>number_format($holding_value,2),
+                                'holding_value'=>round($holding_value,2),
                                 'profit_loss'=>$profit_loss,
                             ];
             }
