@@ -37,7 +37,6 @@ class UserController extends Controller
         $user_stocklist = Stocklist::where('user_id',Auth::user()->id)->where('amount','>',0)->get();
         $client = new Client();
         if ($user_watchlists->isEmpty()) {
-            // return view('user.index');
             $watchlist = null;
         }
         else {
@@ -134,49 +133,15 @@ class UserController extends Controller
 
                 $stocklist[] = ['ticker'=>$stock->ticker, 
                                 'ticker_name'=>$ticker_name, 
-                                'price'=>$now_price, 
-                                'avg_price_per_share'=>$avg_price_per_share,
+                                'price'=>number_format($now_price,2), 
+                                'avg_price_per_share'=>number_format($avg_price_per_share,2),
                                 'stock_amount'=>$stock->amount,
-                                'holding_value'=>$holding_value,
+                                'holding_value'=>number_format($holding_value,2),
                                 'profit_loss'=>$profit_loss,
                             ];
             }
         }
-        // dd($stocklist);
-        
         return view('user.index', compact('watchlist','stocklist'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -187,9 +152,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     { 
-        // $roles = Role::get();
         $countries = Country::get();
-
         return view('user.edit', compact('user','countries'));
     }
 
@@ -213,20 +176,15 @@ class UserController extends Controller
             'verification_img'=>['nullable','mimes:gif,png,jpg,jpeg','max:4096'],
         ]);
 
-        // $absPath = Storage::disk('public_verification_img')->path('');
-        // dd($user->verification_img);
-
         $update = $request->except('verification_img','password');
 
         if (isset($request->verification_img)) {
             if ($user->verification_img) {
-                // dd('user hatte schon ein bild');
                 $this->deleteFile($user->verification_img)->deleteFile('show_'.$user->verification_img);
             }
             $this->saveFile($request->file('verification_img'))->maxWidth(850,'show_');
             $update['verification_img'] = $this->saveFile;
         }
-        // $user->role_id = $request->role_id;
         $user->update($update);
         
         if (isset($request->password)) {
@@ -238,16 +196,5 @@ class UserController extends Controller
         }
 
         return redirect()->route('mainpage')->with('success','Your data has been updated');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
