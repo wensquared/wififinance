@@ -104,7 +104,7 @@ class UserController extends Controller
                 $price_array = null;
                 foreach ($buy_stock_history->stocklist_history_buy as $key) {
                     $amount_array[] = $key->amount;
-                    $price_array[] = $key->price;
+                    $price_array[] = (float) $key->price;
                 }
         
                 $j = 0;
@@ -141,6 +141,8 @@ class UserController extends Controller
                             ];
             }
         }
+
+        // dd($stocklist);
         return view('user.index', compact('watchlist','stocklist'));
     }
 
