@@ -127,17 +127,41 @@ class AdminController extends Controller
      * @param  int  $user_id_history
      * @return \Illuminate\Http\Response
      */
-    public function show_stock_history($user_id_history)
+    public function show_stock_history($user_id_history, $ticker=null)
     {
+
+        if ($ticker) {
+            $admin_searched_ticker = Stocklist::where('user_id',$user_id_history)->where('ticker',$ticker)->first('id');
+            $user_stock_history = StocklistHistory::where('stocklist_id',$admin_searched_ticker->id)->with('stocklist')->orderBy('created_at','desc')->paginate(5);
+            return view('admin.show_stock_history',compact('user_id_history','user_stock_history'));
+        }
+
         $user_stock_ids = Stocklist::where('user_id',$user_id_history)->get('id');
-        // dd($user_stock_ids);
         foreach ($user_stock_ids as $key) {
             $array_ids[] = $key->id;
         }
-        // dd($array_ids);
-        $user_stock_history = StocklistHistory::whereIn('stocklist_id',$array_ids)->with('stocklist')->get();
-        // dd($user_stock_history);
-        return view('admin.show_stock_history',compact('user_stock_history'));
+        $user_stock_history = StocklistHistory::whereIn('stocklist_id',$array_ids)->with('stocklist')->orderBy('created_at','desc')->paginate(5);
+        return view('admin.show_stock_history',compact('user_id_history','user_stock_history'));
+    }
+
+    public function search_ticker_history(Request $request)
+    {
+        // dd($request->all());
+        $user_id_history = $request->user_id_history;
+        $ticker = $request->ticker;
+        
+        $has_ticker = Stocklist::where('ticker',$ticker)->where('user_id',$user_id_history)->first();
+        
+        if (!$has_ticker) {
+            // dd('not ticker');
+            $user_stock_ids = Stocklist::where('user_id',$user_id_history)->get('id');
+            foreach ($user_stock_ids as $key) {
+                $array_ids[] = $key->id;
+            }
+            $user_stock_history = StocklistHistory::whereIn('stocklist_id',$array_ids)->with('stocklist')->get();
+            return redirect()->route('admin.user_stock_history',compact('user_id_history'))->with('error','No history for searched ticker');
+        }
+        return redirect()->route('admin.user_stock_history',['user_id_history'=>$user_id_history,'ticker'=>$ticker]);
     }
 
     /**

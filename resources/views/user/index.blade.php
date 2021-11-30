@@ -39,7 +39,7 @@
                         <td>{{ $item['stock_amount'] }}</td>
                         <td>{{ $item['holding_value'] }} $</td>
                         <td>{{ $item['profit_loss'] }} %</td>
-                        <td><a href="{{ route('stocklist.show', $item['ticker']) }}" class="btn btn-outline-dark fa fa-history"></a></td>
+                        <td><a href="{{ route('stocklist.show_stock_history', $item['ticker']) }}" class="btn btn-outline-dark fa fa-history"></a></td>
                         <td>
                             <button type="button" class="btn btn-primary buybtn" data-toggle="modal" data-target="#buyModal" data-ticker="{{$item['ticker']}}" data-price="{{$item['price']}}" data-balance="{{Auth::user()->balance}}" data-amount="{{ $item['stock_amount'] }}">
                                 Buy
@@ -55,7 +55,7 @@
             </tbody>
         </table>
         @endif
-        <a href="{{ route('stocklist.stock_history')}}" class="btn btn-primary">History</a>
+        <a href="{{ route('stocklist.show_stock_history')}}" class="btn btn-primary">History</a>
     @endcan
 
 

@@ -35,7 +35,7 @@ Route::get('/faq', function() {
 
 Route::get('/info', 'InfoController@index')->name('info.index');
 Route::post('/info_result','InfoController@search')->name('info.result');
-Route::get('/info_test/{here?}','InfoController@test')->name('info.test');
+// Route::get('/info_test/{here?}','InfoController@test')->name('info.test');
 
 Route::middleware('auth')->group(function() {
 
@@ -51,15 +51,16 @@ Route::middleware('auth')->group(function() {
         Route::put('/balance/update','BalanceController@update')->name('balance.update');
         Route::post('/buy','StocklistController@buy')->name('stocklist.buy');
         Route::post('/sell','StocklistController@sell')->name('stocklist.sell');
-        Route::get('/user/stockhistory/{ticker}','StocklistController@show')->name('stocklist.show');
-        Route::get('/user/stock_history','StocklistController@show_stock_history')->name('stocklist.stock_history');
+        Route::get('/user/stock_history/{ticker?}','StocklistController@show_stock_history')->name('stocklist.show_stock_history');
+        Route::post('/user/search_ticker_history','StocklistController@search_ticker_history')->name('stocklist.search_ticker_history');
     });
 
     Route::middleware('can:admingate')->group(function() {
         Route::get('/admin/img/{img}','AdminController@showimg')->name('admin.showimg');
         Route::get('/admin/download/{img}','AdminController@download')->name('admin.download');
         Route::get('/admin/history/{user_id_history}','AdminController@show_history')->name('admin.user_history');
-        Route::get('/admin/stock_history/{user_id_history}','AdminController@show_stock_history')->name('admin.user_stock_history');
+        Route::get('/admin/stock_history/{user_id_history}/{ticker?}','AdminController@show_stock_history')->name('admin.user_stock_history');
+        Route::post('/admin/search_ticker_history','AdminController@search_ticker_history')->name('admin.search_ticker_history');
         Route::resource('/admin','AdminController')->except(['create']);
     });
 });

@@ -124,30 +124,38 @@ class StocklistController extends Controller
 
 
     /**
-     * Show history of specific ticker
-     *
-     * @param  string  $ticker
-     * @return \Illuminate\Http\Response
-     */
-    public function show($ticker)
-    {
-        $stock_history = Stocklist::where('ticker',$ticker)->where('user_id',Auth::user()->id)->with('stocklist_history')->first();
-        return view('user.stock_history', compact('stock_history'));
-    }
-
-
-    /**
      * Show history of all user's stock transactions
      *
      * @return \Illuminate\Http\Response
      */
-    public function show_stock_history()
+    public function show_stock_history($ticker=null)
     {
+
+        if ($ticker) {
+            $user_searched_ticker = Stocklist::where('user_id',Auth::user()->id)->where('ticker',$ticker)->first('id');
+            $stock_history = StocklistHistory::where('stocklist_id',$user_searched_ticker->id)->with('stocklist')->orderBy('created_at','desc')->paginate(5);
+            return view('user.show_stock_history',compact('stock_history'));
+        }
+
         $user_stock_ids = Stocklist::where('user_id',Auth::user()->id)->get('id');
         foreach ($user_stock_ids as $key) {
             $array_ids[] = $key->id;
         }
-        $stock_history = StocklistHistory::whereIn('stocklist_id',$array_ids)->with('stocklist')->get();
-        return view('user.all_stock_history',compact('stock_history'));
+        $stock_history = StocklistHistory::whereIn('stocklist_id',$array_ids)->with('stocklist')->orderBy('created_at','desc')->paginate(5);
+        return view('user.show_stock_history',compact('stock_history'));
+    }
+
+
+    public function search_ticker_history(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $ticker = $request->ticker;
+        
+        $has_ticker = Stocklist::where('ticker',$ticker)->where('user_id',$user_id)->first();
+        
+        if (!$has_ticker) {
+            return redirect()->route('stocklist.show_stock_history')->with('error','No history for searched ticker');
+        }
+        return redirect()->route('stocklist.show_stock_history',$ticker);
     }
 }

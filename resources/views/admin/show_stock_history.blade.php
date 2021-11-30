@@ -7,6 +7,24 @@
 <div class="contrainer">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <form method="POST" action="{{ route('admin.search_ticker_history') }}">
+                @csrf
+                <div class="form-group row mb-2 mt-2">
+                    <div class="input-group mb-3 col-xs-4">
+                        <input id="ticker" type="text" class="form-control @error('ticker') is-invalid @enderror" name="ticker" value="{{ old('ticker') }}" required autocomplete="ticker" autofocus>
+                        @error('ticker')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                        <div class="input-group-append">
+                            <input type="hidden" name="user_id_history" value="{{$user_id_history}}">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
             <div class="card">
                 <div class="card-header">{{ __('Transaction History') }}</div>
                     <div class="card-body">
@@ -43,4 +61,11 @@
     </div>
 </div>
 @endsection
-    
+
+@section('javascript')
+    @if( session('success') )
+        window.myToastr('success', '{{ session('success') }}' );
+    @elseif ( session('error'))
+        window.myToastr('error', '{{ session('error') }}' );
+    @endif
+@endsection
