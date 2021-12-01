@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('pageTitle', 'User verification image')
+@section('pageTitle', 'User transaction history')
 
 @section('content')
 <h1>User History</h1>
@@ -54,7 +54,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{-- <div class="pagination pag_balance justify-content-center">{{ $data->links() }}</div> --}}
+                        <div class="pagination pag_balance justify-content-center">{{ $user_stock_history->links() }}</div>
                     </div>
             </div>
         </div>

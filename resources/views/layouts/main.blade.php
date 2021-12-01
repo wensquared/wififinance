@@ -22,8 +22,8 @@
                     @else
                         <li><a href="{{route('user.index')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'user') ? 'text-white' : 'text-secondary' }}">Home</a></li>
                     @endguest
-                    <li><a href="{{ route('faqs')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'faqs') ? 'text-white' : 'text-secondary' }}">FAQs</a></li>
                     <li><a href="{{ route('info.index')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'info') ? 'text-white' : 'text-secondary' }}">Stock Info</a></li>
+                    <li><a href="{{ route('faqs')}}" class="nav-link px-2 {{ Str::startsWith(Route::currentRouteName(), 'faqs') ? 'text-white' : 'text-secondary' }}">FAQs</a></li>
                     @auth
                         @can('admingate')
                             <li><a href="{{ route('admin.index') }}" class="nav-link px-2  {{ Str::startsWith(Route::currentRouteName(), 'admin') ? 'text-white' : 'text-secondary' }} ">Users</a></li>

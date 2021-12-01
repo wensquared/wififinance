@@ -26,11 +26,9 @@ class StocklistController extends Controller
                 'Authorization'     => 'Token '.config('services.tiingo.token'),
                 ]
             ]);
-        // $result[] = json_decode($res->getBody()->getContents());
 
         $tmp = json_decode($res->getBody()->getContents());
-        $last_price = $tmp[0]->last;
-        // dd($last_price);
+        // $last_price = $tmp[0]->last;
 
         // TODO case what to do when price raise/fall while buying
         /* if( (float)$resquest->now_price < (float)$last_price) {
@@ -38,20 +36,16 @@ class StocklistController extends Controller
 
         } */
 
-        // TODO check if balance is enough and substract money from balance
-        // dd(Auth::user());
+        // check if balance is enough and substract money from balance
         $user = User::where('id',Auth::user()->id)->first();
         $total = (float) $request->price * (float) $request->amount;
-        // dd($total);
         if ($total > $user->balance) {
-            dd('not enough money');
+            return redirect()->route('user.index')->with('error', 'Not enough money to buy stock');
         }
         $user->balance -= $total;
         $user->save();
-        // dd(Auth::user()->balance);
-        // TODO insert/update user's stocklist 
+        // insert/update user's stocklist 
         $user_has_ticker = Stocklist::where('ticker',$ticker)->where('user_id',$user->id)->first();
-        // dd($user_has_ticker);
         $user_id = Auth::user()->id;
         if ($user_has_ticker) {
             $user_has_ticker->amount += (int) $request->amount;
@@ -60,15 +54,13 @@ class StocklistController extends Controller
             Stocklist::create($request->all());
         }
         
-        // TODO insert entry in stock_history
+        // insert entry in stock_history
         $stock_id = Stocklist::select('id')->where('ticker',$ticker)->where('user_id',$user->id)->first();
-        // dd($stock_id->id);
         $stock_history_entry = new StocklistHistory($request->all());
         $stock_history_entry->stocklist_id = $stock_id->id;
         $stock_history_entry->action = true;
         $stock_history_entry->save();
-        // dd('saved???');
-        return redirect()->route('mainpage');
+        return redirect()->route('user.index');
     }
 
     public function sell(Request $request)
@@ -85,28 +77,23 @@ class StocklistController extends Controller
                 'Authorization'     => 'Token '.config('services.tiingo.token'),
                 ]
             ]);
-        // $result[] = json_decode($res->getBody()->getContents());
 
         $tmp = json_decode($res->getBody()->getContents());
-        $last_price = $tmp[0]->last;
-        // dd($last_price);
+        // $last_price = $tmp[0]->last;
 
         // TODO case what to do when price raise/fall while buying
         /* if( (float)$resquest->now_price < (float)$last_price) {
             dd('price fell');
         } */
-
         
         $user = User::where('id',Auth::user()->id)->first();
         $user_has_ticker = Stocklist::where('ticker',$ticker)->where('user_id',$user->id)->first();
         $total = (float) $request->price * (float) $request->amount;
-        // dd($total);
         if ($request->amount > $user_has_ticker->amount) {
             dd('u dont have enough stocks');
         }
         $user->balance += $total;
         $user->save();
-        $user_id = Auth::user()->id;
         if ($user_has_ticker) {
             $user_has_ticker->amount -= (int) $request->amount;
             $user_has_ticker->save();
@@ -130,7 +117,6 @@ class StocklistController extends Controller
      */
     public function show_stock_history($ticker=null)
     {
-
         if ($ticker) {
             $user_searched_ticker = Stocklist::where('user_id',Auth::user()->id)->where('ticker',$ticker)->first('id');
             $stock_history = StocklistHistory::where('stocklist_id',$user_searched_ticker->id)->with('stocklist')->orderBy('created_at','desc')->paginate(5);
@@ -138,6 +124,10 @@ class StocklistController extends Controller
         }
 
         $user_stock_ids = Stocklist::where('user_id',Auth::user()->id)->get('id');
+        if ($user_stock_ids->isEmpty()) {
+            return redirect()->route('user.index')->with('error', 'No stock history found');
+        }
+
         foreach ($user_stock_ids as $key) {
             $array_ids[] = $key->id;
         }

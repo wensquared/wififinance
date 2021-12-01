@@ -6,20 +6,19 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            <form method="POST" action="{{ route('stocklist.search_ticker_history') }}">
+            <form class="row mt-3 mb-2" method="POST" action="{{ route('stocklist.search_ticker_history') }}">
                 @csrf
-                <div class="form-group row mb-2 mt-2">
-                    <div class="input-group mb-3 col-xs-4">
-                        <input id="ticker" type="text" class="form-control @error('ticker') is-invalid @enderror" name="ticker" value="{{ old('ticker') }}" required autocomplete="ticker" autofocus>
-                        @error('ticker')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Search</button>
-                        </div>
-                    </div>
+                <div class="col-2"></div>
+                <div class="col-6">
+                    <input id="ticker" type="text" class="form-control @error('ticker') is-invalid @enderror" name="ticker" value="{{ old('ticker') }}" {{-- required --}} autocomplete="ticker" {{-- autofocus --}}>
+                    @error('ticker')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="col-4 mb-2">
+                    <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
                 </div>
             </form>
 
