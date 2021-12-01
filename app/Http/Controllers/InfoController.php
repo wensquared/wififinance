@@ -17,7 +17,7 @@ class InfoController extends Controller
     }
     public function search(Request $resquest)
     {
-        // dd($var);
+        // dd($resquest->all());
         $ticker = $resquest->ticker;
         $client = new Client();
 
@@ -41,7 +41,7 @@ class InfoController extends Controller
         $date_week_ago = date('Y-m-d',strtotime('-1 week'));
         $date_month_ago = date('Y-m-d', strtotime('-1 month'));
         // dd($date_month_ago);
-        $url = "https://api.tiingo.com/tiingo/daily/".$resquest->ticker."/prices?startDate=".$date_week_ago;
+        $url = "https://api.tiingo.com/tiingo/daily/".$resquest->ticker."/prices?startDate=".$date_month_ago;
         $res = $client->get($url, [
             'headers' => [
                 'Content-type' =>  'application/json',

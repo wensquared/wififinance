@@ -1,68 +1,88 @@
 @extends('layouts.main')
 @section('pageTitle', 'Stock Info')
 @section('content')
-    <h1>Info result</h1>
-
-    @can('user_verified_gate')
-        <h3>Price now of {{$ticker_name}}: {{ $now_price }}$</h3>
-        @if ($num_of_stocks)
-            <h4>You have: {{$num_of_stocks}} in your portfolio</h4>
-        @endif
-    @endcan
-    
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                
-                <form method="POST" action="{{ route('info.result') }}">
-                    @csrf
-
-                    <div class="form-group row mb-2">
-                        <div class="col-md-6">
-                            <input id="ticker" type="ticker" class="form-control @error('ticker') is-invalid @enderror" name="ticker" value="{{ old('ticker') }}" required autocomplete="ticker" autofocus>
-                            @error('ticker')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
+                <div class="row mt-1 mb-2">
+                    {{-- <div class="col-2"></div> --}}
+                    <div class="col-3">
+                        <h3>Search ticker:</h3>
                     </div>
-
-                    <div class="form-group row mb-2">
-                        <div class="col-md-8 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Search') }}
-                            </button>
-                        </div>
+                </div>
+                <form class="row" method="POST" action="{{ route('info.result') }}">
+                    @csrf
+                    {{-- <div class="col-2"></div> --}}
+                    <div class="col-6">
+                        <input id="ticker" type="text" class="form-control @error('ticker') is-invalid @enderror" name="ticker" value="{{ old('ticker') }}" required autocomplete="ticker" autofocus>
+                        @error('ticker')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-4 mb-2">
+                        <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
                     </div>
                 </form>
-                
+            </div>
         </div>
     </div>
-    <p>{{ $description }}</p>
 
-    @auth
-        <div class="container">
-            <form class="addWatchlist" action="{{ route('info.watchlist')}}" method="POST" data-ticker="{{$ticker}}">
-                @csrf
-                <input type="hidden" name="ticker" value="{{$ticker}}">
-                <button type="submit" id="btnHeart" class="btn {{ $user_has_ticker->isEmpty() ? 'btn-outline-secondary' : 'btn-outline-danger'}} fa fa-heart"></button>
-            </form>
-        </div>
-
-        @can('user_verified_gate')
-            <div class="container">
-                <button type="button" class="btn btn-primary buybtn" data-toggle="modal" data-target="#buyModal" data-ticker="{{$ticker}}" data-price="{{$now_price}}" data-balance="{{Auth::user()->balance}}" data-amount="{{$num_of_stocks}}">
-                    Buy
-                </button>
-                @if ($num_of_stocks)
-                    <button type="button" class="btn btn-primary sellbtn" data-toggle="modal" data-target="#sellModal" data-ticker="{{$ticker}}" data-price="{{$now_price}}" data-balance="{{Auth::user()->balance}}" data-amount="{{$num_of_stocks}}">
-                        Sell
-                    </button>
-                @endif
+    @can('user_verified_gate')
+        <div class="container mt-4">
+            <div class="row">
+                <h3>{{$ticker_name}}: {{ $now_price }}$</h3>
             </div>
-        @endcan
+            @if ($num_of_stocks)
+                <div class="row">
+                    <h4>Number of shares in portfolio: {{$num_of_stocks}}</h4>
+                </div>
+            @endif
+        </div>
+    @endcan
+    
+    @auth
+        <div class="container mt-2 mb-2">
+            <div class="row">
+                <div class="col-3">
+                    <form class="addWatchlist" action="{{ route('info.watchlist')}}" method="POST" data-ticker="{{$ticker}}">
+                        @csrf
+                        <input type="hidden" name="ticker" value="{{$ticker}}">
+                        <button type="submit" id="btnHeart" class="btn {{ $user_has_ticker->isEmpty() ? 'btn-outline-secondary' : 'btn-outline-danger'}} fa fa-heart"></button>
+                        
+                        @can('user_verified_gate')
+                            <button type="button" class="btn btn-primary buybtn" data-toggle="modal" data-target="#buyModal" data-ticker="{{$ticker}}" data-price="{{$now_price}}" data-balance="{{Auth::user()->balance}}" data-amount="{{$num_of_stocks}}">
+                                Buy
+                            </button>
+                            @if ($num_of_stocks)
+                                <button type="button" class="btn btn-primary sellbtn" data-toggle="modal" data-target="#sellModal" data-ticker="{{$ticker}}" data-price="{{$now_price}}" data-balance="{{Auth::user()->balance}}" data-amount="{{$num_of_stocks}}">
+                                    Sell
+                                </button>
+                            @endif
+                        @endcan
+                    </form>
+                </div>
+            </div>
+        </div>
     @endauth
+
+    <div class="container">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    More Information about {{$ticker_name}}
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {{ $description }}
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>    
 
     <div class="container">
         <canvas id="myChart"></canvas>
