@@ -40,9 +40,7 @@ Route::post('/info_result','InfoController@search')->name('info.result');
 Route::middleware('auth')->group(function() {
 
     Route::middleware('can:usergate')->group(function() {
-
         Route::get('/balance', 'BalanceController@index')->name('balance.index');
-        
         Route::post('/info_watchlist','InfoController@watchlist')->name('info.watchlist');
         Route::resource('/user','UserController')->except(['create','store','show','destroy']);
     });

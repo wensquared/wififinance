@@ -11,13 +11,25 @@ use Illuminate\Support\Facades\Auth;
 
 class InfoController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         return view('info.index');
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function search(Request $resquest)
     {
-        // dd($resquest->all());
         $ticker = $resquest->ticker;
         $client = new Client();
 
@@ -28,7 +40,6 @@ class InfoController extends Controller
                 'Authorization'     => 'Token '.config('services.tiingo.token'),
                 ]
             ]);
-        // $result[] = json_decode($res->getBody()->getContents());
 
         $tmp = json_decode($res->getBody()->getContents());
         if (!$tmp) {
@@ -40,7 +51,6 @@ class InfoController extends Controller
         $date_now = date('Y-m-d');
         $date_week_ago = date('Y-m-d',strtotime('-1 week'));
         $date_month_ago = date('Y-m-d', strtotime('-1 month'));
-        // dd($date_month_ago);
         $url = "https://api.tiingo.com/tiingo/daily/".$resquest->ticker."/prices?startDate=".$date_month_ago;
         $res = $client->get($url, [
             'headers' => [
@@ -48,9 +58,7 @@ class InfoController extends Controller
                 'Authorization'     => 'Token '.config('services.tiingo.token'),
                 ]
             ]);
-        // $result[] = json_decode($res->getBody()->getContents());
         $tmp = json_decode($res->getBody()->getContents());
-        // dd($tmp);
         foreach ($tmp as $data) {
             $datum = new \DateTime($data->date);
             
@@ -66,17 +74,13 @@ class InfoController extends Controller
                 'Authorization'     => 'Token '.config('services.tiingo.token'),
                 ]
             ]);
-        // $result[] = json_decode($res->getBody()->getContents());
         $tmp = json_decode($res->getBody()->getContents());
 
         $ticker_name = $tmp->name;
         $description = $tmp->description;
-        // dd($ticker_name);
 
 
         //check if user has ticker in stocklist
-        
-        
         if(Auth::user()) {
             $user_has_ticker = Stocklist::where('user_id',Auth::user()->id)->where('ticker',$ticker)->first();
             if($user_has_ticker) {
@@ -136,10 +140,5 @@ class InfoController extends Controller
         }
         // $users = User::get();
         return redirect()->route('info.index');
-    }
-
-    public function test(Request $request)
-    {
-        dd($request->input('ticker'));
     }
 } 

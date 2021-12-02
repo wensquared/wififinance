@@ -33,10 +33,28 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('role')->with('country')->paginate(15);
-        return view('admin.index', compact('users'));
+        $msg = null;
+        $paginate = true;
+        if ($request->user_email) {
+            $users = User::where('email',$request->user_email)->with('role')->with('country')->get();
+
+            if(!$users->isEmpty()) {
+                $paginate = null;
+                return view('admin.index', compact('users','paginate'));
+            }
+            else {
+                $msg = 'No user with email '.$request->user_email.' found.';
+            }
+        }
+
+        $users = User::with('role')->with('country')->paginate(2);
+
+        if ($msg) {
+            return redirect()->route('admin.index', compact('users','paginate'))->with('error',$msg);
+        }
+        return view('admin.index', compact('users','paginate'));
     }
 
     /**
@@ -146,14 +164,12 @@ class AdminController extends Controller
 
     public function search_ticker_history(Request $request)
     {
-        // dd($request->all());
         $user_id_history = $request->user_id_history;
         $ticker = $request->ticker;
         
         $has_ticker = Stocklist::where('ticker',$ticker)->where('user_id',$user_id_history)->first();
         
         if (!$has_ticker) {
-            // dd('not ticker');
             $user_stock_ids = Stocklist::where('user_id',$user_id_history)->get('id');
             foreach ($user_stock_ids as $key) {
                 $array_ids[] = $key->id;

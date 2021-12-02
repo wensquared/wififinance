@@ -5,16 +5,14 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="row mt-1 mb-2">
-                    {{-- <div class="col-2"></div> --}}
                     <div class="col-3">
                         <h3>Search ticker:</h3>
                     </div>
                 </div>
                 <form class="row" method="POST" action="{{ route('info.result') }}">
                     @csrf
-                    {{-- <div class="col-2"></div> --}}
                     <div class="col-6">
-                        <input id="ticker" type="text" class="form-control @error('ticker') is-invalid @enderror" name="ticker" value="{{ old('ticker') }}" required autocomplete="ticker" autofocus>
+                        <input id="ticker" type="text" class="form-control @error('ticker') is-invalid @enderror" name="ticker" value="{{ old('ticker') }}" required autocomplete="ticker" {{-- autofocus --}}>
                         @error('ticker')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -76,6 +74,10 @@
     @endauth
 
     <div class="container">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <div class="container">
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
@@ -91,13 +93,7 @@
             </div> 
         </div>
     </div>    
-
-    <div class="container">
-        <canvas id="myChart"></canvas>
-    </div>
 @endsection
-
-
 
 @section('javascript')
     @if( session('success') )
