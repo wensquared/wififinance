@@ -28,6 +28,23 @@ body {
     padding-top: 20px;
 }
 
+#stockinfo_img {
+    height: 450px;
+    width: auto;
+}
+
+#portfolio_img {
+    height: auto;
+    width: 500px;
+}
+
+#btns_img {
+    height: auto;
+    width: 500px;
+}
+
+
+
 .product-device {
     position: absolute;
     right: 10%;

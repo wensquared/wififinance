@@ -29,6 +29,14 @@
         </div>
     </div>
 
+    @guest
+        <div class="container mt-4">
+            <div class="row">
+                <h3>{{$ticker_name}}: {{ $now_price }}$</h3>
+            </div>
+        </div>
+    @endguest
+
     @can('user_verified_gate')
         <div class="container mt-4">
             <div class="row">

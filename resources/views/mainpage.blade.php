@@ -17,11 +17,12 @@
 
     <div class="row featurette">
         <div class="col-md-7">
-            <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-            <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.</p>
+            <h2 class="featurette-heading">Check stock information <span class="text-muted">- for free!!</span></h2>
+            <p class="lead">Anyone can check their favourite stock for more information for free.</p>
         </div>
         <div class="col-md-5">
-            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="300" height="300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">Screenshot1</text></svg>
+            <img id="stockinfo_img" src="./media/Stockinfo.PNG" alt="stockinfo_img">
+            {{-- <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="300" height="300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">Screenshot1</text></svg> --}}
         </div>
     </div>
 
@@ -29,11 +30,13 @@
 
     <div class="row featurette">
         <div class="col-md-7 order-md-2">
-            <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-            <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
+            <h2 class="featurette-heading">Cool features <span class="text-muted">when you sign up for an account.</span></h2>
+            <p class="lead">Add stocks to your watchlist, to always have an eye on them. Buy/Sell stocks, track your portfolio and much more.</p>
         </div>
         <div class="col-md-5 order-md-1">
-            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="300" height="300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">Screenshot2</text></svg>
+                <img id="portfolio_img" src="./media/portfolio.PNG" alt="portfolio_img">
+                <img id="btns_img" src="./media/btns.PNG" alt="btns_img">
+            {{-- <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="300" height="300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">Screenshot2</text></svg> --}}
         </div>
     </div>
 
