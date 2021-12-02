@@ -40,7 +40,7 @@ class UserController extends Controller
             $watchlist = null;
         }
         else {
-            
+
             foreach ($user_watchlists as $value) {
     
                 $url = "https://api.tiingo.com/iex/?tickers=".$value->ticker;
@@ -64,7 +64,6 @@ class UserController extends Controller
                     ]);
                 $tmp = json_decode($res->getBody()->getContents());
                 $ticker_name = $tmp->name;
-    
                 $watchlist[] = ['ticker'=>$value->ticker, 'price'=>$now_price, 'ticker_name'=>$ticker_name];
             }
         }
@@ -141,8 +140,6 @@ class UserController extends Controller
                             ];
             }
         }
-
-        // dd($stocklist);
         return view('user.index', compact('watchlist','stocklist'));
     }
 
