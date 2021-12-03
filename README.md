@@ -1,8 +1,9 @@
 # WIFI Finance - ein WIFI Projekt
-NOTE: in Bearbeitung
-## Inhaltsverzeichnis
-TODO
+
 ## App Konzept
+
+Das Projekt soll eine vereinfachte Version eines Aktien-Brokers darstellen. Ein nicht eingeloggter User kann sich Informationen (aktueller Preis, Preisverlauf, Firmenbeschreibung) über eine Aktien holen.
+Ein eingeloggter User kann dazu noch Aktien auf dessen Watchlist hinzufügen. Wenn der User sogar noch verifiziert ist, kann er/sie Ein- Auszahlungen auf dessen Account tätigen und Aktien kaufen/verkaufen.
 
 ### Datenbank ER Model: 
 ![blueprint](./misc/database_blueprint_.png)
@@ -17,7 +18,7 @@ TODO
 https://github.com/laravel/ui - Für User Registrierung und Anmeldung
 
 In Terminal: `composer require laravel/ui` und `php artisan ui bootstrap --auth`
-**WICHTIG:** Nach der Installation muss noch in `/vendor/laravel/ui/auth-backend/RegistersUsers.php` in `function showRegistrationForm()` hinzugefügt werden:
+**WICHTIG:** Nach der Installation (und nach jeder `composer install`) muss noch in `/vendor/laravel/ui/auth-backend/RegistersUsers.php` in `function showRegistrationForm()` hinzugefügt werden:
 ```
 public function showRegistrationForm()
     {
