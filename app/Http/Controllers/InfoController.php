@@ -49,7 +49,7 @@ class InfoController extends Controller
 
 
         $date_now = date('Y-m-d');
-        $date_week_ago = date('Y-m-d',strtotime('-1 week'));
+        // $date_week_ago = date('Y-m-d',strtotime('-1 week'));
         $date_month_ago = date('Y-m-d', strtotime('-1 month'));
         $url = "https://api.tiingo.com/tiingo/daily/".$resquest->ticker."/prices?startDate=".$date_month_ago;
         $res = $client->get($url, [
@@ -105,7 +105,7 @@ class InfoController extends Controller
 
 
     /**
-     * Set/unset given ticker to user's watchlist wtih Ajax. 
+     * Set/unset given ticker to user's watchlist with Ajax. 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

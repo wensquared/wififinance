@@ -67,7 +67,6 @@ class AdminController extends Controller
     public function edit(User $admin)
     {   
         if(Auth::user()->id == $admin->id){
-            // dd('not allowed');
             $users = User::with('role')->with('country')->paginate(15);
             return redirect()->route('admin.index',compact('users'));
         }
@@ -135,8 +134,7 @@ class AdminController extends Controller
      */
     public function show_history($user_id_history)
     {
-        $user_balance_history = BalanceHistory::where('user_id',$user_id_history)->orderBy('created_at','desc')->paginate(15);
-        // dd($user_balance_history);
+        $user_balance_history = BalanceHistory::where('user_id',$user_id_history)->orderBy('created_at','desc')->paginate(10);
         return view('admin.show_history',compact('user_balance_history'));
     }
 
@@ -151,7 +149,7 @@ class AdminController extends Controller
 
         if ($ticker) {
             $admin_searched_ticker = Stocklist::where('user_id',$user_id_history)->where('ticker',$ticker)->first('id');
-            $user_stock_history = StocklistHistory::where('stocklist_id',$admin_searched_ticker->id)->with('stocklist')->orderBy('created_at','desc')->paginate(5);
+            $user_stock_history = StocklistHistory::where('stocklist_id',$admin_searched_ticker->id)->with('stocklist')->orderBy('created_at','desc')->paginate(10);
             return view('admin.show_stock_history',compact('user_id_history','user_stock_history'));
         }
 
@@ -159,7 +157,7 @@ class AdminController extends Controller
         foreach ($user_stock_ids as $key) {
             $array_ids[] = $key->id;
         }
-        $user_stock_history = StocklistHistory::whereIn('stocklist_id',$array_ids)->with('stocklist')->orderBy('created_at','desc')->paginate(5);
+        $user_stock_history = StocklistHistory::whereIn('stocklist_id',$array_ids)->with('stocklist')->orderBy('created_at','desc')->paginate(10);
         return view('admin.show_stock_history',compact('user_id_history','user_stock_history'));
     }
 

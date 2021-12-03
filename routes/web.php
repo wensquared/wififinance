@@ -23,19 +23,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-/* Route::get('/info', function() {
-    return view('info');
-}); */
-
 Route::get('/faq', function() {
     return view('faqs');
 })->name('faqs');
 
 Route::get('/info', 'InfoController@index')->name('info.index');
 Route::post('/info_result','InfoController@search')->name('info.result');
-// Route::get('/info_test/{here?}','InfoController@test')->name('info.test');
 
 Route::middleware('auth')->group(function() {
 

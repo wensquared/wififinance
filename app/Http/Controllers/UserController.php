@@ -27,7 +27,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display user's stocklist and watchlist if exists.
      *
      * @return \Illuminate\Http\Response
      */
@@ -144,7 +144,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing user's data.
      *
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
@@ -156,7 +156,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the user's data in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\User  $user
@@ -194,6 +194,6 @@ class UserController extends Controller
             $user->save();
         }
 
-        return redirect()->route('mainpage')->with('success','Your data has been updated');
+        return redirect()->route('user.index')->with('success','Your data has been updated');
     }
 }
