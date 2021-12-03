@@ -17,9 +17,9 @@ class StocklistController extends Controller
         // dd($request->all());
 
         $ticker = $request->ticker;
+
         $client = new Client();
-        // TODO Try catch
-        $url = "https://api.tiingo.com/iex/?tickers=".$request->ticker;
+        $url = "https://api.tiingo.com/iex/?tickers=".$ticker;
         $res = $client->get($url, [
             'headers' => [
                 'Content-type' =>  'application/json',
@@ -28,13 +28,15 @@ class StocklistController extends Controller
             ]);
 
         $tmp = json_decode($res->getBody()->getContents());
-        // $last_price = $tmp[0]->last;
+        
+        // TODO check request ticker exists
 
         // TODO case what to do when price raise/fall while buying
+        // $last_price = $tmp[0]->last;
         /* if( (float)$resquest->now_price < (float)$last_price) {
             dd('price fell');
-
         } */
+
 
         // check if balance is enough and substract money from balance
         $user = User::where('id',Auth::user()->id)->first();
@@ -79,9 +81,9 @@ class StocklistController extends Controller
             ]);
 
         $tmp = json_decode($res->getBody()->getContents());
-        // $last_price = $tmp[0]->last;
-
+        
         // TODO case what to do when price raise/fall while buying
+        // $last_price = $tmp[0]->last;
         /* if( (float)$resquest->now_price < (float)$last_price) {
             dd('price fell');
         } */

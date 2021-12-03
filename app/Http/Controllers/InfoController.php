@@ -13,7 +13,7 @@ class InfoController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
+     * Display stock info page.
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,7 +23,7 @@ class InfoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Search for the given ticker and get and return data from API 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -103,16 +103,20 @@ class InfoController extends Controller
             ->with('close_prices',json_encode($close_prices,JSON_NUMERIC_CHECK));
     }
 
+
+    /**
+     * Set/unset given ticker to user's watchlist wtih Ajax. 
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function watchlist(Request $request)
     {
         $user_id = Auth::user()->id;
-        // dd($request->ticker);
         if ($request->ticker) {
-            // $user->delete();
             if ($request->ticker) {
 
                 $user_ticker = Watchlist::where('ticker',$request->ticker)->where('user_id',$user_id)->get();
-                // dd($user_ticker);
 
                 if($user_ticker->isEmpty()) {
                     $watchlist_item = new Watchlist();
@@ -132,13 +136,12 @@ class InfoController extends Controller
             else {
                 $status = 470;
                 $key = 'error';
-                $msg = 'PROBLEM: User couldn\'t be deleted.';
+                $msg = 'PROBLEM: No ticker found to set/unset';
             }
         }
         if( request()->ajax()) {
             return response()->json(['status'=>$status, 'msg'=>$msg]);
         }
-        // $users = User::get();
         return redirect()->route('info.index');
     }
 } 

@@ -29,8 +29,9 @@ class AdminController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a list of all users and their information.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -58,7 +59,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing a specific user.
      *
      * @param  \App\Models\User  $admin
      * @return \Illuminate\Http\Response
@@ -77,7 +78,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update an user's data.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -114,7 +115,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display user's verified id picture.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -127,7 +128,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display user's balance history.
      *
      * @param  int  $user_id_history
      * @return \Illuminate\Http\Response
@@ -140,7 +141,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display user's stock transaction history.
      *
      * @param  int  $user_id_history
      * @return \Illuminate\Http\Response
@@ -162,6 +163,13 @@ class AdminController extends Controller
         return view('admin.show_stock_history',compact('user_id_history','user_stock_history'));
     }
 
+    /**
+     * After given search term. Check if search term is available for specific user and returns user's specific stock transaction history 
+     * and will redirect to function show_stock_history
+     *
+     * @param  int  $user_id_history
+     * @return \Illuminate\Http\Response
+     */
     public function search_ticker_history(Request $request)
     {
         $user_id_history = $request->user_id_history;
@@ -181,7 +189,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the selected user.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

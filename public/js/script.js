@@ -42,7 +42,6 @@
             const deleteModal = $('#deleteModal');
             deleteModal.modal("show");
 
-            // console.log(form.data('title'));  
             $('#deleteModalLabel').text(form.data('title'));
             $('#deleteModalBody').html(form.data('body')); 
 
@@ -64,7 +63,6 @@
                     data: form.serialize(), 
 
                     success: function(response) {
-                        // console.log(response);
                         if(response.status==200){
                             form.closest('tr').remove();  
                             window.myToastr('success', response.msg );
@@ -86,7 +84,7 @@
             e.preventDefault();
             console.log('in here');
             const form = $(this); 
-            console.log(form.serialize());
+            const btn = form.find('button')[0]
 
             $.ajax({
                 url: form.attr('action'),  
@@ -94,16 +92,14 @@
                 data: form.serialize(), 
 
                 success: function(response) {
-                    // console.log(response);
                     if(response.status==200){
-                        // form.closest('tr').remove();  
                         window.myToastr('success', response.msg );
 
-                        if($('#btnHeart').hasClass('btn-outline-secondary')) {
-                            $('#btnHeart').removeClass('btn-outline-secondary').addClass('btn-outline-danger');
+                        if($(btn).hasClass('btn-outline-secondary')) {
+                            $(btn).removeClass('btn-outline-secondary').addClass('btn-outline-danger');
                         }
-                        else if($('#btnHeart').hasClass('btn-outline-danger')) {
-                            $('#btnHeart').removeClass('btn-outline-danger').addClass('btn-outline-secondary');
+                        else if($(btn).hasClass('btn-outline-danger')) {
+                            $(btn).removeClass('btn-outline-danger').addClass('btn-outline-secondary');
                         }
                     }
                     else{
@@ -117,8 +113,7 @@
             });
         });
 
-        //
-
+        // Buy Modal
         $('button.buybtn').on('click',function(e){
             e.preventDefault();
             const form = $(this); 
@@ -139,7 +134,7 @@
                 buyModal.modal("hide"); 
             });
         });
-        //
+        // Sell Modal
         $('button.sellbtn').on('click',function(e){
             e.preventDefault();
             const form = $(this); 

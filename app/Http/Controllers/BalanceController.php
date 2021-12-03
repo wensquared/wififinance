@@ -12,7 +12,7 @@ use function PHPSTORM_META\type;
 class BalanceController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display user's balance history.
      *
      * @return \Illuminate\Http\Response
      */
@@ -22,9 +22,15 @@ class BalanceController extends Controller
         return view('user.balance',compact('data'));
     }
 
+    /**
+     * Update an user's balance.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request)
     {
-        $request->all();
+        // $request->all();
         $request->validate(['balance' => 'required|numeric|gte:0.01']);
         $user = User::find(Auth::user()->id);
         $balance_entry = new BalanceHistory();
