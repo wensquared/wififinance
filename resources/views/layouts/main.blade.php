@@ -80,7 +80,7 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="buyModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="buyModalLabel">Buy Stock</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -120,7 +120,7 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="sellModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="sellModalLabel">Sell Stock</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

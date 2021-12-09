@@ -94,12 +94,12 @@ class InfoController extends Controller
             $user_has_ticker = Watchlist::where('ticker',$ticker)->where('user_id',$user_id)->get();
             $user = User::find($user_id);
             return view('info.result',compact('now_price','ticker_name','description','ticker','user_has_ticker','user','num_of_stocks'))
-            ->with('dates',json_encode($dates,JSON_NUMERIC_CHECK))
+            ->with('dates',json_encode($dates))
             ->with('close_prices',json_encode($close_prices,JSON_NUMERIC_CHECK));
         }
 
     return view('info.result',compact('now_price','ticker_name','description','ticker'))
-            ->with('dates',json_encode($dates,JSON_NUMERIC_CHECK))
+            ->with('dates',json_encode($dates))
             ->with('close_prices',json_encode($close_prices,JSON_NUMERIC_CHECK));
     }
 
